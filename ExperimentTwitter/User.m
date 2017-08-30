@@ -53,6 +53,7 @@ NSString * const currentUserKey = @"currentUserKey";
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 +(void)logout {
     [self setCurrentUser:nil];
     [[TwitterClient sharedInstance].requestSerializer removeAccessToken];

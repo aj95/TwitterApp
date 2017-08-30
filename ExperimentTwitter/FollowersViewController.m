@@ -1,64 +1,58 @@
 //
-//  TweetsViewController.m
+//  FollowersViewController.m
 //  ExperimentTwitter
 //
-//  Created by ayur.j on 25/08/17.
+//  Created by ayur.j on 30/08/17.
 //  Copyright © 2017 ayur.j. All rights reserved.
 //
 
-#import "TweetsViewController.h"
+#import "FollowersViewController.h"
+#import "CustomUserCell.h" 
 #import "User.h"
 #import "TwitterClient.h"
-#import "Tweet.h"
-#import "CustomTweetCell.h"
 
-@interface TweetsViewController ()
-@property (strong, nonatomic) NSArray * tweets;
+@interface FollowersViewController ()
+@property (strong, nonatomic) NSArray * followers;
 @end
 
-@implementation TweetsViewController
+@implementation FollowersViewController
 
-@synthesize tweets = _tweets;
+@synthesize followers = _followers;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.tweets count];
+    return [self.followers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    CustomTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
+    CustomUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
     if(!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"CustomTweetCell" bundle:nil] forCellReuseIdentifier:@"tweetCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
+        [tableView registerNib:[UINib nibWithNibName:@"CustomUserCell" bundle:nil] forCellReuseIdentifier:@"userCell"];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
         
     }
-    Tweet *tweet = [self.tweets objectAtIndex:indexPath.row];
-    cell.tweet = tweet;
+    User *follower = [self.followers objectAtIndex:indexPath.row];
+    cell.follower = follower;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
 }
 
-- (IBAction)onLogOut:(id)sender {
-    [User logout];
-}
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-   
     // Do any additional setup after loading the view from its nib.
     _tableView.tableFooterView = [UIView new];
     _tableView.rowHeight = UITableViewAutomaticDimension;
-    _tableView.estimatedRowHeight = 333;
-    [[TwitterClient sharedInstance]homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        self.tweets = tweets;
-        for(Tweet *tweet in _tweets) {
-         //NSLog(@"Text = %@, CreatedAt: %@", tweet.text, tweet.createdAt);
-            NSLog(@"Media = %@", tweet.mediaUrl);
-         }
-       [self.tableView reloadData];
+    _tableView.estimatedRowHeight = 200;
+    [[TwitterClient sharedInstance] followersListWithParams:nil completion:^(NSArray *followers, NSError *error) {
+        self.followers = followers;
+        for(User *follower in _followers) {
+            //NSLog(@"Text = %@, CreatedAt: %@", tweet.text, tweet.createdAt);
+            NSLog(@"Follwer Name = %@", follower.name);
+        }
+        [self.tableView reloadData];
     }];
 }
 
@@ -76,6 +70,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 
 @end

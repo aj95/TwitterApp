@@ -12,6 +12,7 @@
 #import "TwitterClient.h"
 #import "User.h"
 #import "Tweet.h"
+#import "TabBarViewController.h"
 
 
 @interface AppDelegate ()
@@ -28,7 +29,8 @@
     User *user = [User currentUser];
     if(user != nil) {
         NSLog(@"Welcome %@ !", user.name);
-        self.window.rootViewController = [[TweetsViewController alloc]init];
+        // self.window.rootViewController = [[TweetsViewController alloc]init];
+        self.window.rootViewController = [[TabBarViewController alloc]init];
     } else {
         NSLog(@"User not logged in");
         self.window.rootViewController = [[LogInViewController alloc]init];

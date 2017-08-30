@@ -9,17 +9,19 @@
 #import "LogInViewController.h"
 #import "TwitterClient.h"
 #import "TweetsViewController.h"
-
+#import "TabBarViewController.h"
 @interface LogInViewController ()
 
 @end
 
 @implementation LogInViewController
+
 - (IBAction)onLogin:(id)sender {
    [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
        if(user!=nil) {
            NSLog(@"Welcome to %@", user.name);
-           [self presentViewController:[[TweetsViewController alloc] init] animated:NO completion:nil];
+           [self presentViewController:[[TabBarViewController alloc] init] animated:NO completion:nil];
+          // [self presentViewController:[[TweetsViewController alloc] init] animated:NO completion:nil];
        } else {
            NSLog(@"Error");
        }

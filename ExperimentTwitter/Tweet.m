@@ -18,6 +18,9 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [dateFormatter dateFromString:dictionary[@"created_at"]];
+        NSDictionary *entities = dictionary[@"entities"];
+        NSArray *media = entities[@"media"];
+        self.mediaUrl = media.firstObject[@"media_url_https"];
     }
     return self;
 }

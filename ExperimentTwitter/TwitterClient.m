@@ -45,10 +45,8 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 
 - (void)openURL:(NSURL *)url {
     [self fetchAccessTokenWithPath:@"oauth/access_token" method:@"POST" requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query] success:^(BDBOAuth1Credential *accessToken) {
-        
         NSLog(@"Got the access token");
         [self.requestSerializer saveAccessToken: accessToken];
-        
         [self GET:@"1.1/account/verify_credentials.json" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             NSLog(@"Fetching user");
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -76,4 +74,24 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
         completion(nil, error);
     }];
 }
+
+- (void)followersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *followers, NSError *error))completion {
+    [self GET:@"1.1/followers/list.json" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching followers");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSMutableArray *followers = [[NSMutableArray alloc] init];
+        //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
+        for(NSDictionary *dictionary in responseObject[@"users"]) {
+            [followers addObject:[[User alloc] initWithDictionary:dictionary]];
+        }
+        //NSLog(@"Your Followers : %@", ((User*)[followers firstObject]).name);
+        completion(followers, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+
+
 @end
