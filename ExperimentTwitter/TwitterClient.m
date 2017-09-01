@@ -65,7 +65,10 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 }
 
 - (void)homeTimelineWithParams:(NSDictionary*)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
-    [self GET:@"1.1/statuses/home_timeline.json" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    NSLog(@"Hi");
+    NSString* maxId = [NSString stringWithFormat:@"%ld",[params[@"maxId"] integerValue] - 1];
+    NSString *endPoint = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"1.1/statuses/home_timeline.json%@",[params objectForKey:@"maxId"] != nil ? [NSString stringWithFormat:@"?max_id=%@",maxId] : @""]];
+    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
@@ -75,23 +78,22 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
-- (void)followersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *followers, NSError *error))completion {
-    [self GET:@"1.1/followers/list.json" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+
+- (void)followersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *followers, NSString* cursor, NSError *error))completion {
+    NSLog(@"%@", params[@"cursor"]);
+    [self GET:[NSString stringWithFormat:@"1.1/friends/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Fetching followers");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         NSMutableArray *followers = [[NSMutableArray alloc] init];
         //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
         for(NSDictionary *dictionary in responseObject[@"users"]) {
             [followers addObject:[[User alloc] initWithDictionary:dictionary]];
         }
         //NSLog(@"Your Followers : %@", ((User*)[followers firstObject]).name);
-        completion(followers, nil);
+        completion(followers,responseObject[@"next_cursor_str"], nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        completion(nil, error);
+        completion(nil, nil, error);
     }];
 }
-
-
 
 @end

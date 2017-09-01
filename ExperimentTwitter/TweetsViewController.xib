@@ -20,16 +20,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbn-he-cGa">
-                    <rect key="frame" x="248" y="20" width="56" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="56" id="i38-Ne-RoD"/>
-                    </constraints>
-                    <state key="normal" title="Logout"/>
-                    <connections>
-                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="Kcb-5y-8XV"/>
-                    </connections>
-                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="333" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8if-q8-gcY">
                     <rect key="frame" x="16" y="58" width="288" height="490"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,17 +28,35 @@
                         <outlet property="delegate" destination="-1" id="K9H-xj-fMN"/>
                     </connections>
                 </tableView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fy0-dQ-jPh">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem title="Home" id="DEn-T1-l9j">
+                            <barButtonItem key="rightBarButtonItem" style="plain" id="Xvw-Tg-q6t">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zbn-he-cGa">
+                                    <rect key="frame" x="248" y="7" width="56" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Logout"/>
+                                    <connections>
+                                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="Kcb-5y-8XV"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="8if-q8-gcY" firstAttribute="top" secondItem="Zbn-he-cGa" secondAttribute="bottom" constant="8" symbolic="YES" id="0oN-yC-7GU"/>
-                <constraint firstItem="8if-q8-gcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="7y2-Mg-dks"/>
-                <constraint firstItem="Zbn-he-cGa" firstAttribute="trailing" secondItem="8if-q8-gcY" secondAttribute="trailing" id="LB7-8P-bet"/>
-                <constraint firstItem="Zbn-he-cGa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="oPo-XD-G4s"/>
-                <constraint firstAttribute="bottom" secondItem="8if-q8-gcY" secondAttribute="bottom" constant="20" id="pBw-hc-8vV"/>
-                <constraint firstItem="8if-q8-gcY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="w5z-zZ-yDu"/>
+                <constraint firstItem="8if-q8-gcY" firstAttribute="top" secondItem="fy0-dQ-jPh" secondAttribute="bottom" constant="14" id="4Lo-en-hiY"/>
+                <constraint firstItem="fy0-dQ-jPh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SS7-lc-HSv"/>
+                <constraint firstAttribute="trailing" secondItem="fy0-dQ-jPh" secondAttribute="trailing" id="c3Y-h6-vpn"/>
+                <constraint firstItem="fy0-dQ-jPh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c9h-Gg-ZyI"/>
+                <constraint firstItem="fy0-dQ-jPh" firstAttribute="centerX" secondItem="8if-q8-gcY" secondAttribute="centerX" id="ddV-pF-7ao"/>
+                <constraint firstItem="8if-q8-gcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="pqS-1n-MH5"/>
+                <constraint firstAttribute="bottom" secondItem="8if-q8-gcY" secondAttribute="bottom" constant="20" id="qKg-cf-Qqz"/>
             </constraints>
-            <point key="canvasLocation" x="220" y="-48"/>
+            <point key="canvasLocation" x="-304" y="-159"/>
         </view>
         <tabBarController id="Cr4-50-WP4">
             <tabBar key="tabBar" contentMode="scaleToFill" id="xSf-We-5mf">

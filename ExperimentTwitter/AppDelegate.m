@@ -36,6 +36,8 @@
         self.window.rootViewController = [[LogInViewController alloc]init];
     }
     [self.window makeKeyAndVisible];
+     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:3/255.0 green:119/255.0 blue:244/255.0 alpha:1.0]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     return YES;
 }
 

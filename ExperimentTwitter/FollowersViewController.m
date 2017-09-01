@@ -12,12 +12,14 @@
 #import "TwitterClient.h"
 
 @interface FollowersViewController ()
-@property (strong, nonatomic) NSArray * followers;
+@property (strong, nonatomic) NSMutableArray * followers;
+@property (strong, nonatomic) NSString *cursor;
 @end
 
 @implementation FollowersViewController
 
 @synthesize followers = _followers;
+@synthesize cursor = _cursor;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -39,19 +41,38 @@
     
 }
 
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check if indexPath.row is last row
+    // Perform operation to load new Cell's.
+    // NSLog(@"!");
+    //NSLog(@"%d %d", indexPath.row, [self.tweets count]);
+    if(indexPath.row == [self.followers count] - 1 && ![self.cursor isEqualToString:@"0"]) {
+        NSLog(@"I'm Here!");
+        NSDictionary *param = [NSDictionary dictionaryWithObject: self.cursor forKey: @"cursor"];
+        [[TwitterClient sharedInstance]followersListWithParams:param completion:^(NSArray *followers, NSString* cursor, NSError *error) {
+            [self.followers addObjectsFromArray:followers];
+            [self.tableView reloadData];
+            self.cursor = cursor;
+        }];
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _tableView.tableFooterView = [UIView new];
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.estimatedRowHeight = 200;
-    [[TwitterClient sharedInstance] followersListWithParams:nil completion:^(NSArray *followers, NSError *error) {
-        self.followers = followers;
-        for(User *follower in _followers) {
+    NSDictionary *param = [NSDictionary dictionaryWithObject: @"-1" forKey: @"cursor"];
+    [[TwitterClient sharedInstance] followersListWithParams:param completion:^(NSArray *followers, NSString* cursor, NSError *error) {
+        self.followers = [[NSMutableArray alloc]init];
+        [self.followers addObjectsFromArray:followers];
+        self.cursor = cursor;
+//        for(User *follower in _followers) {
             //NSLog(@"Text = %@, CreatedAt: %@", tweet.text, tweet.createdAt);
-            NSLog(@"Follwer Name = %@", follower.name);
-        }
+  //          NSLog(@"Follwer Name = %@", follower.name);
+  //      }
         [self.tableView reloadData];
     }];
 }

@@ -13,6 +13,7 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if(self) {
+        self.tweetId = dictionary[@"id_str"];
         self.text = dictionary[@"text"];
         self.user = [[User alloc] initWithDictionary:dictionary[@"user"]];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

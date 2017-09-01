@@ -17,5 +17,6 @@
 @property (weak, nonatomic, nullable) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView *tweetImageView;
 @property (strong, nonatomic, nullable) Tweet* tweet;
+@property (strong, nonatomic, nullable) NSString* cellTag;
 
 @end
