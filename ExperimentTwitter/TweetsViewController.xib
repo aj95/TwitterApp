@@ -56,41 +56,7 @@
                 <constraint firstItem="8if-q8-gcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="pqS-1n-MH5"/>
                 <constraint firstAttribute="bottom" secondItem="8if-q8-gcY" secondAttribute="bottom" constant="20" id="qKg-cf-Qqz"/>
             </constraints>
-            <point key="canvasLocation" x="-304" y="-159"/>
+            <point key="canvasLocation" x="-477" y="-152"/>
         </view>
-        <tabBarController id="Cr4-50-WP4">
-            <tabBar key="tabBar" contentMode="scaleToFill" id="xSf-We-5mf">
-                <rect key="frame" x="0.0" y="519" width="320" height="49"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            </tabBar>
-            <viewControllers>
-                <viewController id="nTc-aJ-7V8">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="13O-ut-wwy"/>
-                        <viewControllerLayoutGuide type="bottom" id="2LU-Re-2BF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5ch-JX-74S">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="heZ-Uk-K8g"/>
-                </viewController>
-                <viewController id="Nu4-sH-epf">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ouY-Nw-IiW"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hjk-wa-p0k"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="SRH-WJ-P6a">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="FJS-bR-iNc"/>
-                </viewController>
-            </viewControllers>
-            <point key="canvasLocation" x="484" y="65"/>
-        </tabBarController>
     </objects>
 </document>

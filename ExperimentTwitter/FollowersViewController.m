@@ -10,6 +10,7 @@
 #import "CustomUserCell.h" 
 #import "User.h"
 #import "TwitterClient.h"
+#import "UserTweetsViewController.h"
 
 @interface FollowersViewController ()
 @property (strong, nonatomic) NSMutableArray * followers;
@@ -32,7 +33,6 @@
     if(!cell) {
         [tableView registerNib:[UINib nibWithNibName:@"CustomUserCell" bundle:nil] forCellReuseIdentifier:@"userCell"];
         cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
-        
     }
     User *follower = [self.followers objectAtIndex:indexPath.row];
     cell.follower = follower;
@@ -60,6 +60,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"Followers";
     // Do any additional setup after loading the view from its nib.
     _tableView.tableFooterView = [UIView new];
     _tableView.rowHeight = UITableViewAutomaticDimension;
@@ -91,5 +92,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    User* user =[self.followers objectAtIndex:indexPath.row];
+    NSLog(@"%@", user.screenName);
+    UserTweetsViewController *viewController = [[UserTweetsViewController alloc] initWithUser:user];
+    NSLog(@"YES I AM HERE");
+    //NSLog(@"%@", [self navigationController]);
+    [[self navigationController] pushViewController:viewController animated:YES];
+    //[self presentModalViewController:viewController animated:YES];
+    NSLog(@"PUSHED");
+}
 
 @end

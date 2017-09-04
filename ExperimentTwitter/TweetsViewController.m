@@ -12,6 +12,7 @@
 #import "Tweet.h"
 #import "CustomTweetCell.h"
 
+
 @interface TweetsViewController ()
 @property (strong, nonatomic) NSMutableArray* tweets;
 @end
@@ -56,9 +57,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // check if indexPath.row is last row
     // Perform operation to load new Cell's.
    // NSLog(@"!");
-    //NSLog(@"%d %d", indexPath.row, [self.tweets count]);
+    NSLog(@"%ld %lu", (long)indexPath.row, (unsigned long)[self.tweets count]);
     if(indexPath.row == [self.tweets count] - 1) {
-        NSLog(@"I'm Here!");
+        //NSLog(@"I'm Here!");
         Tweet *tweet = [self.tweets lastObject];
         NSDictionary *params = [NSDictionary dictionaryWithObject:tweet.tweetId forKey: @"maxId"];
         [[TwitterClient sharedInstance]homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
@@ -85,6 +86,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [User logout];
 }
 
+UIRefreshControl* refreshControl;
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -101,7 +104,27 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       // }
         [self.tableView reloadData];
     }];
+   /* UIRefreshControl* refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];*/
+    
 }
+/*
+- (void)refreshTable {
+    //TODO: refresh your data
+    [[TwitterClient sharedInstance]homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        [self.tweets removeAllObjects];
+        [self.tweets addObjectsFromArray:tweets];
+        [self.tableView reloadData];
+    }];
+    NSLog(@"Refreshing!");
+    [refreshControl endRefreshing];
+    NSLog(@"End!");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+    NSLog(@"reloaded data!");
+}*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -117,5 +140,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
  // Pass the selected object to the new view controller.
  }
  */
+
+
 
 @end

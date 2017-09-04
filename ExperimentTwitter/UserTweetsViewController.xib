@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserTweetsViewController">
+            <connections>
+                <outlet property="tableView" destination="w3N-o9-dxN" id="9FB-Al-CHJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="333" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="w3N-o9-dxN">
+                    <rect key="frame" x="16" y="34" width="288" height="514"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="nn7-pr-Y3F"/>
+                        <outlet property="delegate" destination="-1" id="EHZ-Uc-DfP"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="w3N-o9-dxN" secondAttribute="bottom" constant="20" id="4av-RN-wlJ"/>
+                <constraint firstItem="w3N-o9-dxN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="TuL-gc-tsU"/>
+                <constraint firstItem="w3N-o9-dxN" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="vGx-i8-NvO"/>
+                <constraint firstItem="w3N-o9-dxN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="34" id="zH7-V9-YYH"/>
+            </constraints>
+            <point key="canvasLocation" x="-24" y="-164"/>
+        </view>
+    </objects>
+</document>
