@@ -11,7 +11,7 @@
 #import "TwitterClient.h"
 #import "Tweet.h"
 #import "CustomTweetCell.h"
-
+#import "PostTweetViewController.h"
 
 @interface TweetsViewController ()
 @property (strong, nonatomic) NSMutableArray* tweets;
@@ -57,6 +57,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // check if indexPath.row is last row
     // Perform operation to load new Cell's.
    // NSLog(@"!");
+    
     NSLog(@"%ld %lu", (long)indexPath.row, (unsigned long)[self.tweets count]);
     if(indexPath.row == [self.tweets count] - 1) {
         //NSLog(@"I'm Here!");
@@ -105,7 +106,22 @@ UIRefreshControl* refreshControl;
     [self.tableView addSubview:refreshControl];
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];*/
     
+    UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Tweet"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(onTweetPress)];
+    self.navigationItem.rightBarButtonItem = tweetButton;
+    //[tweetButton release];
+    
 }
+
+-(IBAction)onTweetPress {
+    // your code here
+    PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
+    [[self navigationController] pushViewController:viewController animated:YES];
+}
+
 /*
 - (void)refreshTable {
     //TODO: refresh your data

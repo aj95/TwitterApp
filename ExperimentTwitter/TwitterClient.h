@@ -21,4 +21,5 @@
 - (void)unlikeTweetWithId:(NSString*)tweetId;
 - (void)retweetTweetWithId:(NSString*)tweetId;
 - (void)untweetTweetWithId:(NSString*)tweetId;
+- (void)postTweet:(NSString*)tweetText;
 @end

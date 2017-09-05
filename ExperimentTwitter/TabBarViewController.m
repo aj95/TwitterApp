@@ -10,9 +10,11 @@
 #import "FollowersViewController.h"
 #import "TweetsViewController.h"
 #import "UserProfileViewController.h"
+#import "PostTweetViewController.h"
 
 @interface TabBarViewController ()
-@property(strong, nonatomic) UINavigationController * navigationController;
+@property(strong, nonatomic) UINavigationController * FollowersNavigationController;
+@property(strong, nonatomic) UINavigationController * HomeNavigationController;
 @end
 
 @implementation TabBarViewController
@@ -23,11 +25,16 @@
     UIViewController *homeTimelineTab = [[TweetsViewController alloc] init];
     UIViewController *followersTab = [[FollowersViewController alloc] init];
     UIViewController *profileViewTab = [[UserProfileViewController alloc] init];
+   // UIViewController *postTweetTab = [[PostTweetViewController alloc] init];
+    
     
     NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
-    [tabViewControllers addObject:homeTimelineTab];
-    [tabViewControllers addObject:self.navigationController];
+    self.FollowersNavigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
+    self.HomeNavigationController = [[UINavigationController alloc] initWithRootViewController: homeTimelineTab];
+   // [tabViewControllers addObject:homeTimelineTab];
+//[tabViewControllers addObject:postTweetTab];
+    [tabViewControllers addObject:self.HomeNavigationController];
+    [tabViewControllers addObject:self.FollowersNavigationController];
     [tabViewControllers addObject:profileViewTab];
     [self setViewControllers:tabViewControllers];
     

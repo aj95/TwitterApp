@@ -113,7 +113,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)likeTweetWithId:(NSString*)tweetId {
     NSString *endPoint = [NSString stringWithFormat:@"1.1/favorites/create.json?id=%@",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
+      //  NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Successfully Liked");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -124,7 +124,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)unlikeTweetWithId:(NSString*)tweetId {
     NSString *endPoint = [NSString stringWithFormat:@"1.1/favorites/destroy.json?id=%@",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
+      //  NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Successfully unliked");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -136,7 +136,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)retweetTweetWithId:(NSString*)tweetId {
     NSString *endPoint = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
+       // NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Successfully retweetes");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -147,11 +147,24 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)untweetTweetWithId:(NSString*)tweetId {
     NSString *endPoint = [NSString stringWithFormat:@"1.1/statuses/unretweet/%@.json",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
+       // NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Successfully untweeted");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Failed to untweet");
+    }];
+}
+
+- (void)postTweet:(NSString*)tweetText {
+    NSString *endPoint = [[NSString stringWithFormat:@"1.1/statuses/update.json?status=%@",tweetText] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+    NSLog(@"%@",endPoint);
+    
+    [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+       // NSLog(@"Fetching user");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Successfully tweeted");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to tweet");
     }];
 }
 
