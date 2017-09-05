@@ -31,18 +31,7 @@
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fy0-dQ-jPh">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <items>
-                        <navigationItem title="Home" id="DEn-T1-l9j">
-                            <barButtonItem key="rightBarButtonItem" style="plain" id="Xvw-Tg-q6t">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zbn-he-cGa">
-                                    <rect key="frame" x="248" y="7" width="56" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Logout"/>
-                                    <connections>
-                                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="Kcb-5y-8XV"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                        </navigationItem>
+                        <navigationItem title="Home" id="DEn-T1-l9j"/>
                     </items>
                 </navigationBar>
             </subviews>

@@ -8,6 +8,7 @@
 
 #import "CustomTweetCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "TwitterClient.h"
 
 @implementation CustomTweetCell
 
@@ -42,6 +43,37 @@
     else
         dateFormatter.timeStyle = NSFormattingUnitStyleShort;
     _createdAtLabel.text = [dateFormatter stringFromDate:_tweet.createdAt];
+    _favouriteCountLabel.text = _tweet.favouriteCount;
+    _retweetCountLabel.text = _tweet.retweetedCount;
 }
+- (IBAction)onPressingFavouriteButton:(id)sender {
+    if ([sender isSelected]) {
+        [sender setImage:[UIImage imageNamed:@"icon-heart"] forState:UIControlStateNormal];
+        [sender setSelected:NO];
+        _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] - 1];
+         [[TwitterClient sharedInstance] unlikeTweetWithId : _tweet.tweetId];
+    } else {
+        [sender setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateSelected];
+        [sender setSelected:YES];
+         _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
+        [[TwitterClient sharedInstance] likeTweetWithId : _tweet.tweetId];
+        
+    }
+}
+
+- (IBAction)onPressingRetweetButton:(id)sender {
+    if ([sender isSelected]) {
+        [sender setImage:[UIImage imageNamed:@"icon-retweet"] forState:UIControlStateNormal];
+        [sender setSelected:NO];
+        _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] - 1];
+        [[TwitterClient sharedInstance] untweetTweetWithId : _tweet.tweetId];
+    } else {
+        [sender setImage:[UIImage imageNamed:@"icon-retweet-selected"] forState:UIControlStateSelected];
+        [sender setSelected:YES];
+        _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] + 1];
+        [[TwitterClient sharedInstance] retweetTweetWithId : _tweet.tweetId];
+    }
+}
+
 
 @end

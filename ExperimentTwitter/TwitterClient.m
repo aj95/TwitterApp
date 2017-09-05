@@ -110,7 +110,49 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
+- (void)likeTweetWithId:(NSString*)tweetId {
+    NSString *endPoint = [NSString stringWithFormat:@"1.1/favorites/create.json?id=%@",tweetId];
+    [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching user");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Successfully Liked");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to Like");
+    }];
+}
+
+- (void)unlikeTweetWithId:(NSString*)tweetId {
+    NSString *endPoint = [NSString stringWithFormat:@"1.1/favorites/destroy.json?id=%@",tweetId];
+    [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching user");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Successfully unliked");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to unlike");
+    }];
+}
 
 
+- (void)retweetTweetWithId:(NSString*)tweetId {
+    NSString *endPoint = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json",tweetId];
+    [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching user");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Successfully retweetes");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to retweet");
+    }];
+}
+
+- (void)untweetTweetWithId:(NSString*)tweetId {
+    NSString *endPoint = [NSString stringWithFormat:@"1.1/statuses/unretweet/%@.json",tweetId];
+    [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching user");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Successfully untweeted");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to untweet");
+    }];
+}
 
 @end

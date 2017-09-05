@@ -16,6 +16,10 @@
 
 @implementation UserProfileViewController
 
+- (IBAction)onLogOut:(id)sender {
+    [User logout];
+}
+
 @synthesize tweets = _tweets;
 
 BOOL flag = 1;

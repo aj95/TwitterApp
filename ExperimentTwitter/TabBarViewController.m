@@ -27,8 +27,7 @@
     NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
     [tabViewControllers addObject:homeTimelineTab];
-    [tabViewControllers addObject:followersTab];
-    //[tabViewControllers addObject:self.navigationController];
+    [tabViewControllers addObject:self.navigationController];
     [tabViewControllers addObject:profileViewTab];
     [self setViewControllers:tabViewControllers];
     

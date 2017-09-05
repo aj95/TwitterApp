@@ -18,5 +18,6 @@
 @property (weak, nonatomic, nullable) IBOutlet UIImageView *tweetImageView;
 @property (strong, nonatomic, nullable) Tweet* tweet;
 @property (strong, nonatomic, nullable) NSString* cellTag;
-
+@property (weak, nonatomic, nullable) IBOutlet UILabel *favouriteCountLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel *retweetCountLabel;
 @end

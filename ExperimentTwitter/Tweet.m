@@ -22,6 +22,10 @@
         NSDictionary *entities = dictionary[@"entities"];
         NSArray *media = entities[@"media"];
         self.mediaUrl = media.firstObject[@"media_url_https"];
+        self.retweetedCount = [NSString stringWithFormat:@"%@", dictionary[@"retweet_count"]];
+        self.favouriteCount = [NSString stringWithFormat:@"%@", dictionary[@"favorite_count"]];
+        self.isFavourited = [NSString stringWithFormat:@"%@", dictionary[@"favorited"]];
+        self.isRetweeted = [NSString stringWithFormat:@"%@", dictionary[@"retweeted"]];
     }
     return self;
 }

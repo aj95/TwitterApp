@@ -16,6 +16,10 @@
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSString *mediaUrl;
+@property (nonatomic, strong) NSString *retweetedCount;
+@property (nonatomic, strong) NSString *favouriteCount;
+@property (nonatomic, strong) NSString* isFavourited;
+@property (nonatomic, strong) NSString* isRetweeted;
 
 - (id) initWithDictionary : (NSDictionary *)dictionary;
 + (NSArray *)tweetsWithArray:(NSArray *)array;

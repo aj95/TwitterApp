@@ -64,7 +64,18 @@
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rY8-Ta-duz">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <items>
-                        <navigationItem title="My Profile" id="olD-DZ-Byl"/>
+                        <navigationItem title="My Profile" id="olD-DZ-Byl">
+                            <barButtonItem key="rightBarButtonItem" style="plain" id="rLI-OU-GNQ">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="foO-Vh-D67">
+                                    <rect key="frame" x="233" y="7" width="71" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" backgroundImage="LogoutButton"/>
+                                    <connections>
+                                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="D1T-cf-nXj"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </navigationItem>
                     </items>
                 </navigationBar>
             </subviews>
@@ -85,4 +96,7 @@
             <point key="canvasLocation" x="-351" y="-313"/>
         </view>
     </objects>
+    <resources>
+        <image name="LogoutButton" width="512" height="512"/>
+    </resources>
 </document>

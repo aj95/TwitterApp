@@ -82,9 +82,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }];
  }*/
 
-- (IBAction)onLogOut:(id)sender {
-    [User logout];
-}
 
 UIRefreshControl* refreshControl;
 
