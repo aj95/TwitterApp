@@ -9,6 +9,7 @@
 #import "CustomTweetCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterClient.h"
+#import "PostTweetViewController.h"
 
 @implementation CustomTweetCell
 

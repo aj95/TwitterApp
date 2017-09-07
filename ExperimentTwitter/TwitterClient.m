@@ -122,6 +122,9 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        for(NSDictionary *i in responseObject) {
+            NSLog(@"%@", i);
+        }
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
