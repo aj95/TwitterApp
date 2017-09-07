@@ -90,9 +90,9 @@ UIRefreshControl* refreshControl1;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _tableView.tableFooterView = [UIView new];
-    _tableView.rowHeight = UITableViewAutomaticDimension;
-    _tableView.estimatedRowHeight = 333;
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 333;
     [[TwitterClient sharedInstance]homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         self.tweets = [[NSMutableArray alloc]init];
         [self.tweets addObjectsFromArray:tweets];

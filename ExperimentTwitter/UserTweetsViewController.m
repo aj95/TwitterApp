@@ -96,9 +96,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     NSLog(@"HaHa");
     NSLog(@"User Name = %@", self.user.screenName);
     // Do any additional setup after loading the view from its nib.
-    _tableView.tableFooterView = [UIView new];
-    _tableView.rowHeight = UITableViewAutomaticDimension;
-    _tableView.estimatedRowHeight = 333;
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 333;
     NSDictionary *params = [NSDictionary dictionaryWithObject:self.user.screenName forKey: @"screenName"];
     [[TwitterClient sharedInstance]userTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
         self.tweets = [[NSMutableArray alloc]init];

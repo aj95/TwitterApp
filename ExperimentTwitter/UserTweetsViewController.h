@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
-@interface UserTweetsViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@interface UserTweetsViewController : UITableViewController
 - (id) initWithUser : (User *)user;
 @end

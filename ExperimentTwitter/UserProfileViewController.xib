@@ -61,42 +61,19 @@
                         </label>
                     </subviews>
                 </stackView>
-                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rY8-Ta-duz">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                    <items>
-                        <navigationItem title="My Profile" id="olD-DZ-Byl">
-                            <barButtonItem key="rightBarButtonItem" style="plain" id="rLI-OU-GNQ">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="foO-Vh-D67">
-                                    <rect key="frame" x="233" y="7" width="71" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" backgroundImage="LogoutButton"/>
-                                    <connections>
-                                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="D1T-cf-nXj"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                        </navigationItem>
-                    </items>
-                </navigationBar>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="rY8-Ta-duz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0Op-gg-yWp"/>
-                <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="rY8-Ta-duz" secondAttribute="bottom" constant="16" id="B2e-TH-oE2"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="vUQ-3u-uda" secondAttribute="top" id="FVr-cv-3az"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="IBw-yO-5Su"/>
-                <constraint firstItem="rY8-Ta-duz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NgS-MU-wLo"/>
                 <constraint firstAttribute="trailing" secondItem="zkc-Mz-gds" secondAttribute="trailing" constant="16" id="SFW-n7-ClG"/>
                 <constraint firstAttribute="bottom" secondItem="zkc-Mz-gds" secondAttribute="bottom" constant="20" id="Veu-Kw-cUq"/>
                 <constraint firstItem="zkc-Mz-gds" firstAttribute="top" secondItem="KwC-TB-3qb" secondAttribute="bottom" constant="8" symbolic="YES" id="dNL-es-Bdu"/>
-                <constraint firstAttribute="trailing" secondItem="rY8-Ta-duz" secondAttribute="trailing" id="mO9-4r-aPw"/>
+                <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="eqC-fC-gzm"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="zkc-Mz-gds" secondAttribute="leading" id="wfT-w5-HLh"/>
                 <constraint firstItem="vUQ-3u-uda" firstAttribute="leading" secondItem="KwC-TB-3qb" secondAttribute="trailing" constant="8" symbolic="YES" id="zD1-sh-iIe"/>
             </constraints>
             <point key="canvasLocation" x="-351" y="-313"/>
         </view>
     </objects>
-    <resources>
-        <image name="LogoutButton" width="512" height="512"/>
-    </resources>
 </document>

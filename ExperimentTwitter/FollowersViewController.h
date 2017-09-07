@@ -8,7 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FollowersViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@interface FollowersViewController : UITableViewController
 @end

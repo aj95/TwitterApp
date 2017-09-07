@@ -1,30 +1,30 @@
 //
-//  FollowersViewController.m
+//  FollowingTableViewController.m
 //  ExperimentTwitter
 //
-//  Created by ayur.j on 30/08/17.
+//  Created by ayur.j on 07/09/17.
 //  Copyright © 2017 ayur.j. All rights reserved.
 //
 
-#import "FollowersViewController.h"
-#import "CustomUserCell.h" 
+#import "FollowingTableViewController.h"
+#import "CustomUserCell.h"
 #import "User.h"
 #import "TwitterClient.h"
 #import "UserTweetsViewController.h"
 
-@interface FollowersViewController ()
-@property (strong, nonatomic) NSMutableArray * followers;
+@interface FollowingTableViewController ()
+@property (strong, nonatomic) NSMutableArray * following;
 @property (strong, nonatomic) NSString *cursor;
 @end
 
-@implementation FollowersViewController
+@implementation FollowingTableViewController
 
-@synthesize followers = _followers;
+@synthesize following = _following;
 @synthesize cursor = _cursor;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.followers count];
+    return [self.following count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -34,7 +34,7 @@
         [tableView registerNib:[UINib nibWithNibName:@"CustomUserCell" bundle:nil] forCellReuseIdentifier:@"userCell"];
         cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
     }
-    User *follower = [self.followers objectAtIndex:indexPath.row];
+    User *follower = [self.following objectAtIndex:indexPath.row];
     cell.follower = follower;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -48,11 +48,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // Perform operation to load new Cell's.
     // NSLog(@"!");
     //NSLog(@"%d %d", indexPath.row, [self.tweets count]);
-    if(indexPath.row == [self.followers count] - 1 && ![self.cursor isEqualToString:@"0"]) {
+    if(indexPath.row == [self.following count] - 1 && ![self.cursor isEqualToString:@"0"]) {
         NSLog(@"I'm Here!");
         NSDictionary *param = [NSDictionary dictionaryWithObject: self.cursor forKey: @"cursor"];
-        [[TwitterClient sharedInstance]followersListWithParams:param completion:^(NSArray *followers, NSString* cursor, NSError *error) {
-            [self.followers addObjectsFromArray:followers];
+        [[TwitterClient sharedInstance]followingListWithParams:param completion:^(NSArray *following, NSString* cursor, NSError *error) {
+            [self.following addObjectsFromArray:following];
             [self.tableView reloadData];
             self.cursor = cursor;
         }];
@@ -66,14 +66,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 200;
     NSDictionary *param = [NSDictionary dictionaryWithObject: @"-1" forKey: @"cursor"];
-    [[TwitterClient sharedInstance] followersListWithParams:param completion:^(NSArray *followers, NSString* cursor, NSError *error) {
-        self.followers = [[NSMutableArray alloc]init];
-        [self.followers addObjectsFromArray:followers];
+    [[TwitterClient sharedInstance] followingListWithParams:param completion:^(NSArray *following, NSString* cursor, NSError *error) {
+        self.following = [[NSMutableArray alloc]init];
+        [self.following addObjectsFromArray:following];
         self.cursor = cursor;
-//        for(User *follower in _followers) {
-            //NSLog(@"Text = %@, CreatedAt: %@", tweet.text, tweet.createdAt);
-  //          NSLog(@"Follwer Name = %@", follower.name);
-  //      }
+        //        for(User *follower in _followers) {
+        //NSLog(@"Text = %@, CreatedAt: %@", tweet.text, tweet.createdAt);
+        //          NSLog(@"Follwer Name = %@", follower.name);
+        //      }
         [self.tableView reloadData];
     }];
 }
@@ -84,18 +84,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    User* user =[self.followers objectAtIndex:indexPath.row];
+    User* user =[self.following objectAtIndex:indexPath.row];
     NSLog(@"%@", user.screenName);
     UserTweetsViewController *viewController = [[UserTweetsViewController alloc] initWithUser:user];
     NSLog(@"YES I AM HERE");

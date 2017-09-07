@@ -81,8 +81,26 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 
 - (void)followersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *followers, NSString* cursor, NSError *error))completion {
     NSLog(@"%@", params[@"cursor"]);
-    [self GET:[NSString stringWithFormat:@"1.1/friends/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    [self GET:[NSString stringWithFormat:@"1.1/followers/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Fetching followers");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSMutableArray *followers = [[NSMutableArray alloc] init];
+        //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
+        for(NSDictionary *dictionary in responseObject[@"users"]) {
+            [followers addObject:[[User alloc] initWithDictionary:dictionary]];
+        }
+        //NSLog(@"Your Followers : %@", ((User*)[followers firstObject]).name);
+        completion(followers,responseObject[@"next_cursor_str"], nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, nil, error);
+    }];
+}
+
+
+- (void)followingListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *following, NSString* cursor, NSError *error))completion {
+    NSLog(@"%@", params[@"cursor"]);
+    [self GET:[NSString stringWithFormat:@"1.1/friends/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching following");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSMutableArray *followers = [[NSMutableArray alloc] init];
         //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
