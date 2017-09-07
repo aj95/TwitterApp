@@ -21,29 +21,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="333" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8if-q8-gcY">
-                    <rect key="frame" x="16" y="58" width="288" height="490"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="hyi-K2-TRM"/>
                         <outlet property="delegate" destination="-1" id="K9H-xj-fMN"/>
                     </connections>
                 </tableView>
-                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fy0-dQ-jPh">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                    <items>
-                        <navigationItem title="Home" id="DEn-T1-l9j"/>
-                    </items>
-                </navigationBar>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="8if-q8-gcY" firstAttribute="top" secondItem="fy0-dQ-jPh" secondAttribute="bottom" constant="14" id="4Lo-en-hiY"/>
-                <constraint firstItem="fy0-dQ-jPh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SS7-lc-HSv"/>
-                <constraint firstAttribute="trailing" secondItem="fy0-dQ-jPh" secondAttribute="trailing" id="c3Y-h6-vpn"/>
-                <constraint firstItem="fy0-dQ-jPh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c9h-Gg-ZyI"/>
-                <constraint firstItem="fy0-dQ-jPh" firstAttribute="centerX" secondItem="8if-q8-gcY" secondAttribute="centerX" id="ddV-pF-7ao"/>
-                <constraint firstItem="8if-q8-gcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="pqS-1n-MH5"/>
-                <constraint firstAttribute="bottom" secondItem="8if-q8-gcY" secondAttribute="bottom" constant="20" id="qKg-cf-Qqz"/>
+                <constraint firstAttribute="bottom" secondItem="8if-q8-gcY" secondAttribute="bottom" constant="20" id="3ER-cJ-uCp"/>
+                <constraint firstItem="8if-q8-gcY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BRm-We-9hs"/>
+                <constraint firstAttribute="trailing" secondItem="8if-q8-gcY" secondAttribute="trailing" id="RoY-ov-kVr"/>
+                <constraint firstItem="8if-q8-gcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="i3D-q9-kf6"/>
             </constraints>
             <point key="canvasLocation" x="-477" y="-152"/>
         </view>
