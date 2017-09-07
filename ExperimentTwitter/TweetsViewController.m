@@ -58,7 +58,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // Perform operation to load new Cell's.
    // NSLog(@"!");
     
-    NSLog(@"%ld %lu", (long)indexPath.row, (unsigned long)[self.tweets count]);
+    //NSLog(@"%ld %lu", (long)indexPath.row, (unsigned long)[self.tweets count]);
     if(indexPath.row == [self.tweets count] - 1) {
         //NSLog(@"I'm Here!");
         Tweet *tweet = [self.tweets lastObject];
@@ -84,7 +84,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
  }*/
 
 
-UIRefreshControl* refreshControl;
+UIRefreshControl* refreshControl1;
 
 - (void)viewDidLoad {
     
@@ -102,9 +102,10 @@ UIRefreshControl* refreshControl;
       // }
         [self.tableView reloadData];
     }];
-   /* UIRefreshControl* refreshControl = [[UIRefreshControl alloc]init];
+    UIRefreshControl* refreshControl = [[UIRefreshControl alloc]init];
+    refreshControl1 = refreshControl;
     [self.tableView addSubview:refreshControl];
-    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];*/
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Tweet"
@@ -122,22 +123,28 @@ UIRefreshControl* refreshControl;
     [[self navigationController] pushViewController:viewController animated:YES];
 }
 
-/*
 - (void)refreshTable {
     //TODO: refresh your data
     [[TwitterClient sharedInstance]homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        NSLog(@"!!!!!");
         [self.tweets removeAllObjects];
+        NSLog(@"%lu", [self.tweets count]);
         [self.tweets addObjectsFromArray:tweets];
+        NSLog(@"%lu", [self.tweets count]);
+       // dispatch_async(dispatch_get_main_queue(), ^{
+        
+       // });
+        
+        [refreshControl1 endRefreshing];
+        
         [self.tableView reloadData];
     }];
-    NSLog(@"Refreshing!");
-    [refreshControl endRefreshing];
-    NSLog(@"End!");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
-    NSLog(@"reloaded data!");
-}*/
+    //NSLog(@"Refreshing!");
+    
+  //  NSLog(@"End!");
+   // [self.tableView reloadData];
+    //NSLog(@"reloaded data!");
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
