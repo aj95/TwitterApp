@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
-@interface TweetsViewController : UITableViewController
+@interface TweetsTableViewController : UITableViewController
+@property(strong, nonatomic) NSString *endPoint;
+- (void) setUserForTimeline : (User *)user;
 @end

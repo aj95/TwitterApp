@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "LogInViewController.h"
-#import "TweetsViewController.h"
 #import "TwitterClient.h"
 #import "User.h"
 #import "Tweet.h"

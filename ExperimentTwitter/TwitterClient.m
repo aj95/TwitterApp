@@ -64,74 +64,6 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
-- (void)homeTimelineWithParams:(NSDictionary*)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
-    NSLog(@"Hi");
-    NSString* maxId = [NSString stringWithFormat:@"%ld",[params[@"maxId"] integerValue] - 1];
-    NSString *endPoint = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"1.1/statuses/home_timeline.json%@",[params objectForKey:@"maxId"] != nil ? [NSString stringWithFormat:@"?max_id=%@",maxId] : @""]];
-    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"Successfully downloaded tweets!");
-        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
-        completion(tweets, nil);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        completion(nil, error);
-    }];
-}
-
-- (void)followersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *followers, NSString* cursor, NSError *error))completion {
-    NSLog(@"%@", params[@"cursor"]);
-    [self GET:[NSString stringWithFormat:@"1.1/followers/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching followers");
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSMutableArray *followers = [[NSMutableArray alloc] init];
-        //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
-        for(NSDictionary *dictionary in responseObject[@"users"]) {
-            [followers addObject:[[User alloc] initWithDictionary:dictionary]];
-        }
-        //NSLog(@"Your Followers : %@", ((User*)[followers firstObject]).name);
-        completion(followers,responseObject[@"next_cursor_str"], nil);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        completion(nil, nil, error);
-    }];
-}
-
-
-- (void)followingListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *following, NSString* cursor, NSError *error))completion {
-    NSLog(@"%@", params[@"cursor"]);
-    [self GET:[NSString stringWithFormat:@"1.1/friends/list.json?cursor=%@",params[@"cursor"]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching following");
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSMutableArray *followers = [[NSMutableArray alloc] init];
-        //NSLog(@"List of Followers : %@", [responseObject[@"users"] firstObject]);
-        for(NSDictionary *dictionary in responseObject[@"users"]) {
-            [followers addObject:[[User alloc] initWithDictionary:dictionary]];
-        }
-        //NSLog(@"Your Followers : %@", ((User*)[followers firstObject]).name);
-        completion(followers,responseObject[@"next_cursor_str"], nil);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        completion(nil, nil, error);
-    }];
-}
-
-- (void)userTimelineWithParams:(NSDictionary*)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
-    NSLog(@"Hi");
-    NSString* maxId = [NSString stringWithFormat:@"%ld",[params[@"maxId"] integerValue] - 1];
-    NSString *endPoint = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"1.1/statuses/user_timeline.json?screen_name=%@%@",[params objectForKey:@"screenName"], [params objectForKey:@"maxId"] != nil ? [NSString stringWithFormat:@"&max_id=%@",maxId] : @""]];
-    NSLog(@"%@", endPoint);
-    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching user");
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        for(NSDictionary *i in responseObject) {
-            NSLog(@"%@", i);
-        }
-        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
-        completion(tweets, nil);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        completion(nil, error);
-    }];
-}
-
 - (void)likeTweetWithId:(NSString*)tweetId {
     NSString *endPoint = [NSString stringWithFormat:@"1.1/favorites/create.json?id=%@",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -180,9 +112,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)postTweet:(NSString*)tweetText {
     NSString *endPoint = [[NSString stringWithFormat:@"1.1/statuses/update.json?status=%@",tweetText] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     NSLog(@"%@",endPoint);
-    
     [self POST:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-       // NSLog(@"Fetching user");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Successfully tweeted");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -193,9 +123,8 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 
 - (void)usersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users, NSString* cursor, NSError *error))completion {
     NSString *endPoint = params[@"endPoint"];
-    NSLog(@"%@", endPoint);
     [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Fetching users!");
+        NSLog(@"Fetching users");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSMutableArray *users = [[NSMutableArray alloc] init];
         for(NSDictionary *dictionary in responseObject[@"users"]) {
@@ -205,6 +134,21 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Failed to fetch users!");
         completion(nil, nil, error);
+    }];
+}
+
+- (void)tweetsWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users,NSError *error))completion {
+    NSString *endPoint = params[@"endPoint"];
+    NSLog(@"%@", endPoint);
+    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Downloading tweets");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        completion(tweets, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to download tweets!");
+        NSLog(@"%@", endPoint);
+        completion(nil, error);
     }];
 }
 

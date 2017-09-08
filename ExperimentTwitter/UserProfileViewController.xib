@@ -26,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="333" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zkc-Mz-gds">
-                    <rect key="frame" x="8" y="164" width="296" height="384"/>
+                    <rect key="frame" x="8" y="161" width="304" height="387"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="4iI-iR-syg"/>
@@ -34,7 +34,7 @@
                     </connections>
                 </tableView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KwC-TB-3qb">
-                    <rect key="frame" x="8" y="60" width="96" height="96"/>
+                    <rect key="frame" x="8" y="65" width="96" height="96"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="96" id="Ayv-tC-csU"/>
                         <constraint firstAttribute="width" secondItem="KwC-TB-3qb" secondAttribute="height" multiplier="1:1" id="gmS-kW-0SP"/>
@@ -42,7 +42,7 @@
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vUQ-3u-uda">
-                    <rect key="frame" x="112" y="60" width="140" height="43.5"/>
+                    <rect key="frame" x="112" y="65" width="140" height="43.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Twitter Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRm-84-6pw">
                             <rect key="frame" x="0.0" y="0.0" width="140" height="21"/>
@@ -66,11 +66,12 @@
             <constraints>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="vUQ-3u-uda" secondAttribute="top" id="FVr-cv-3az"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="IBw-yO-5Su"/>
-                <constraint firstAttribute="trailing" secondItem="zkc-Mz-gds" secondAttribute="trailing" constant="16" id="SFW-n7-ClG"/>
+                <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="65" id="SEG-YS-FNC"/>
                 <constraint firstAttribute="bottom" secondItem="zkc-Mz-gds" secondAttribute="bottom" constant="20" id="Veu-Kw-cUq"/>
-                <constraint firstItem="zkc-Mz-gds" firstAttribute="top" secondItem="KwC-TB-3qb" secondAttribute="bottom" constant="8" symbolic="YES" id="dNL-es-Bdu"/>
-                <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="eqC-fC-gzm"/>
+                <constraint firstItem="zkc-Mz-gds" firstAttribute="top" secondItem="KwC-TB-3qb" secondAttribute="bottom" id="dNL-es-Bdu"/>
+                <constraint firstItem="zkc-Mz-gds" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailingMargin" id="plt-YE-LaN"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="zkc-Mz-gds" secondAttribute="leading" id="wfT-w5-HLh"/>
+                <constraint firstItem="zkc-Mz-gds" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="yhp-uk-ad1"/>
                 <constraint firstItem="vUQ-3u-uda" firstAttribute="leading" secondItem="KwC-TB-3qb" secondAttribute="trailing" constant="8" symbolic="YES" id="zD1-sh-iIe"/>
             </constraints>
             <point key="canvasLocation" x="-351" y="-313"/>

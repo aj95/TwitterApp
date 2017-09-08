@@ -7,9 +7,10 @@
 //
 
 #import "UsersTableViewController.h"
+#import "UserTimelineViewController.h"
+#import "PostTweetViewController.h"
 #import "CustomUserCell.h"
 #import "TwitterClient.h"
-#import "UserTweetsViewController.h"
 
 @interface UsersTableViewController ()
 @property (strong, nonatomic) NSMutableArray * users;
@@ -55,7 +56,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     User* user = [self.users objectAtIndex:indexPath.row];
-    UserTweetsViewController *viewController = [[UserTweetsViewController alloc] initWithUser:user];
+    UserTimelineViewController *viewController = [[UserTimelineViewController alloc] initWithUser:user];
     [[self navigationController] pushViewController:viewController animated:YES];
 }
 
@@ -74,11 +75,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         self.cursor = cursor;
         [self.tableView reloadData];
     }];
+    UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
+                                    initWithTitle:@"Tweet"
+                                    style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(onTweetButtonPress)];
+    self.navigationItem.rightBarButtonItem = tweetButton;
 }
 
-
--(NSString*) getEndPoint {
-    return [NSString stringWithFormat:@"%@?cursor=%@",self.endPoint, self.cursor];
+-(IBAction)onTweetButtonPress {
+    PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
+    [[self navigationController] pushViewController:viewController animated:YES];
 }
 
 - (void)refreshTable {
@@ -89,6 +96,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     }];
+}
+
+-(NSString*) getEndPoint {
+    return [NSString stringWithFormat:@"%@?cursor=%@",self.endPoint, self.cursor];
 }
 
 @end

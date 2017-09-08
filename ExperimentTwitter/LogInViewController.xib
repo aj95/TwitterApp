@@ -20,7 +20,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GuU-oQ-ZME">
-                    <rect key="frame" x="97" y="269" width="126" height="30"/>
+                    <rect key="frame" x="82" y="267" width="156" height="34"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <state key="normal" title="Login with Twitter"/>
                     <connections>
                         <action selector="onLogin:" destination="-1" eventType="touchUpInside" id="BLh-dh-My7"/>
@@ -29,9 +30,8 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="GuU-oQ-ZME" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Lfz-Ze-sbr"/>
-                <constraint firstItem="GuU-oQ-ZME" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="97" id="R02-Wk-l9Y"/>
-                <constraint firstItem="GuU-oQ-ZME" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="my2-BA-7zQ"/>
+                <constraint firstItem="GuU-oQ-ZME" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="KE3-uw-RDf"/>
+                <constraint firstItem="GuU-oQ-ZME" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="mtx-Xa-CiX"/>
             </constraints>
             <point key="canvasLocation" x="95" y="60"/>
         </view>

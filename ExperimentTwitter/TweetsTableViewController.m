@@ -1,31 +1,31 @@
 //
-//  UserProfileViewController.m
+//  TweetsViewController.m
 //  ExperimentTwitter
 //
-//  Created by ayur.j on 04/09/17.
+//  Created by ayur.j on 25/08/17.
 //  Copyright © 2017 ayur.j. All rights reserved.
 //
 
-#import "UserProfileViewController.h"
+#import "TweetsTableViewController.h"
+#import "PostTweetViewController.h"
 #import "CustomTweetCell.h"
 #import "TwitterClient.h"
-#import "PostTweetViewController.h"
+#import "Tweet.h"
 
-@interface UserProfileViewController ()
+
+@interface TweetsTableViewController ()
 @property (strong, nonatomic) NSMutableArray* tweets;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (nonatomic) BOOL loadMoreData;
+@property (strong, nonatomic) NSString* userScreenName;
 @end
 
-@implementation UserProfileViewController
-
+@implementation TweetsTableViewController
 
 @synthesize refreshControl;
 
--(id) init {
-    self = [super init];
-    self.user = [User currentUser];
-    return self;
+- (void) setUserForTimeline:(User *)user {
+    self.userScreenName = user.screenName;
 }
 
 - (NSMutableArray*) tweets {
@@ -69,9 +69,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self updateUI];
     self.tableView.tableFooterView = [UIView new];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 333;
@@ -89,13 +89,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
     }];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
-                                    initWithTitle:@"Tweet"
-                                    style:UIBarButtonItemStylePlain
-                                    target:self
-                                    action:@selector(onTweetButtonPress)];
+                                   initWithTitle:@"Tweet"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(onTweetButtonPress)];
     self.navigationItem.rightBarButtonItem = tweetButton;
 }
-
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
@@ -109,27 +108,28 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     }];
-    
+
 }
 
 -(NSString*) getEndPoint {
-    return [NSString stringWithFormat:@"1.1/statuses/user_timeline.json?screen_name=%@", self.user.screenName];
-
+    if(self.userScreenName != nil) {
+        return [NSString stringWithFormat:@"%@?screen_name=%@", self.endPoint, self.userScreenName];
+    }
+    else {
+        return self.endPoint;
+    }
 }
 
 -(NSString*) getEndPointWithMaxId {
     Tweet *tweet = [self.tweets lastObject];
     NSString* maxId = [NSString stringWithFormat:@"%ld",[tweet.tweetId integerValue] - 1];
-   return [NSString stringWithFormat:@"1.1/statuses/user_timeline.json?screen_name=%@&max_id=%@",self.user.screenName, maxId];
-
-}
-
-- (void) updateUI {
-    self.handleLabel.text = [NSString stringWithFormat: @"@%@", self.user.screenName];
-    self.userNameLabel.text = self.user.name;
-    self.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.profileImageUrl]]];
-    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
-    self.profileImageView.clipsToBounds = YES;
+    if(self.userScreenName != nil) {
+        return [NSString stringWithFormat:@"%@?screen_name=%@&max_id=%@", self.endPoint, self.userScreenName, maxId];
+    }
+    else {
+        return [NSString stringWithFormat:@"%@?max_id=%@", self.endPoint,maxId];
+        
+    }
 }
 
 @end
