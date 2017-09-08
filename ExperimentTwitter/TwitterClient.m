@@ -190,4 +190,22 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
+
+- (void)usersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users, NSString* cursor, NSError *error))completion {
+    NSString *endPoint = params[@"endPoint"];
+    NSLog(@"%@", endPoint);
+    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Fetching users!");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSMutableArray *users = [[NSMutableArray alloc] init];
+        for(NSDictionary *dictionary in responseObject[@"users"]) {
+            [users addObject:[[User alloc] initWithDictionary:dictionary]];
+        }
+        completion(users,responseObject[@"next_cursor_str"], nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Failed to fetch users!");
+        completion(nil, nil, error);
+    }];
+}
+
 @end

@@ -1,5 +1,5 @@
 //
-//  FollowingTableViewController.h
+//  UsersTableViewController.h
 //  ExperimentTwitter
 //
 //  Created by ayur.j on 07/09/17.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FollowingTableViewController : UITableViewController
-
+@interface UsersTableViewController : UITableViewController
+@property(strong, nonatomic) NSString *endPoint;
 @end
