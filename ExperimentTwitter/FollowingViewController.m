@@ -8,22 +8,27 @@
 
 #import "FollowingViewController.h"
 #import "User+Twitter.h"
-
+#import "CoreDataHelper.h"
 @implementation FollowingViewController
 
 - (void)viewDidLoad {
     self.endPoint = @"1.1/friends/list.json";
     self.navigationItem.title = @"Following";
     User *currentUser = [User currentUser];
-    self.users = [NSMutableArray arrayWithArray:[currentUser.followers allObjects]];
+    self.users = [NSMutableArray arrayWithArray:[currentUser.following allObjects]];
+    NSSortDescriptor * nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    self.users = [NSMutableArray arrayWithArray:[self.users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+    NSLog(@"Fetched %ld following from coredata",[self.users count]);
+    [self.tableView reloadData];
     [super viewDidLoad];
 }
 
 - (void)setRelationshipOnUsers:(NSArray *)users {
-    if (!users) {
-        users = self.users;
-        [[User currentUser] addFollowing:[NSSet setWithArray:self.users]];
-    }
+    //NSLog(@"%@", users);
+    //if (!users) {
+    //    users = self.users;
+   // }
+    [[User currentUser] addFollowing:[NSSet setWithArray:users]];
 }
 
 @end

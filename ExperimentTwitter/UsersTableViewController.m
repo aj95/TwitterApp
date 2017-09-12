@@ -38,7 +38,6 @@
     cell.user = user;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
-    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
@@ -46,6 +45,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == [self.users count] - 5 && ![self.cursor isEqualToString:@"0"]) {
         [[TwitterClient sharedInstance]usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
+            [self sortUsersListByFirstName:&users];
             [self.users addObjectsFromArray:users];
             [self setRelationshipOnUsers:users];
             self.cursor = cursor;
@@ -72,6 +72,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
         self.users = [[NSMutableArray alloc]init];
+        [self sortUsersListByFirstName:&users];
         [self.users addObjectsFromArray:users];
         [self setRelationshipOnUsers:users];
         self.cursor = cursor;
@@ -94,6 +95,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.cursor = @"-1";
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
         [self.users removeAllObjects];
+        [self sortUsersListByFirstName:&users];
         [self.users addObjectsFromArray:users];
         [self setRelationshipOnUsers:users];
         self.cursor = cursor;
@@ -110,4 +112,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // Implemented in subclasses
 }
 
+-(void)sortUsersListByFirstName:(NSArray**)users {
+    NSSortDescriptor * nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    *users = [NSMutableArray arrayWithArray:[*users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+}
 @end

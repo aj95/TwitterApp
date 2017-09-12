@@ -19,7 +19,7 @@
 @dynamic screenName;
 @dynamic profileImageUrl;
 @dynamic tweets;
-@dynamic followers;
 @dynamic following;
+@dynamic followers;
 
 @end

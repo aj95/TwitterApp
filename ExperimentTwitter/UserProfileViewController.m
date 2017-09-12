@@ -132,4 +132,5 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.profileImageView.clipsToBounds = YES;
 }
 
+
 @end

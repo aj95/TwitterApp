@@ -14,7 +14,6 @@ NSString * const UserDidLogInNotification = @"UserDidLoginNotification";
 NSString * const UserDidLogOutNotification = @"UserDidLogoutNotification";
 
 @interface User()
-@property (nonatomic, strong) NSDictionary *dictionary;
 @end
 
 
@@ -48,13 +47,15 @@ NSString * const currentUserKey = @"currentUserKey";
 
 
 + (User *)currentUser {
+    
     if(_currentUser == nil) {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:currentUserKey];
-        if(data != nil) {
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-            NSLog(@"%@",dictionary);
-            _currentUser = [User userWithTwitterInfo:dictionary inManagedObjectContext:[CoreDataHelper managedObjectContext]];
-            
+        NSString *loggedInUserId = [[NSUserDefaults standardUserDefaults] stringForKey:currentUserKey];
+        if(loggedInUserId != nil) {
+            NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"userId = %@",loggedInUserId]];
+            [fetchRequest setReturnsObjectsAsFaults:NO];
+            _currentUser = [[[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] firstObject];
         }
     }
     return _currentUser;
@@ -62,10 +63,9 @@ NSString * const currentUserKey = @"currentUserKey";
 
 + (void)setCurrentUser:currentUser {
     _currentUser = currentUser;
-    NSLog(@"%@",_currentUser.dictionary);
     if(_currentUser != nil) {
-        NSData *data = [NSJSONSerialization dataWithJSONObject:_currentUser.dictionary options:0 error:NULL];
-        [[NSUserDefaults standardUserDefaults]setObject:data forKey:currentUserKey];
+        NSString *userId = _currentUser.userId;
+        [[NSUserDefaults standardUserDefaults]setObject:userId forKey:currentUserKey];
     } else {
         [[NSUserDefaults standardUserDefaults]setObject:nil forKey:currentUserKey];
     }

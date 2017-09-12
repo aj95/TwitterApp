@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *screenName;
 @property (nullable, nonatomic, copy) NSString *profileImageUrl;
 @property (nullable, nonatomic, retain) NSSet<Tweet *> *tweets;
-@property (nullable, nonatomic, retain) NSSet<User *> *followers;
 @property (nullable, nonatomic, retain) NSSet<User *> *following;
+@property (nullable, nonatomic, retain) NSSet<User *> *followers;
 
 @end
 
@@ -32,15 +32,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addTweets:(NSSet<Tweet *> *)values;
 - (void)removeTweets:(NSSet<Tweet *> *)values;
 
-- (void)addFollowersObject:(User *)value;
-- (void)removeFollowersObject:(User *)value;
-- (void)addFollowers:(NSSet<User *> *)values;
-- (void)removeFollowers:(NSSet<User *> *)values;
-
 - (void)addFollowingObject:(User *)value;
 - (void)removeFollowingObject:(User *)value;
 - (void)addFollowing:(NSSet<User *> *)values;
 - (void)removeFollowing:(NSSet<User *> *)values;
+
+- (void)addFollowersObject:(User *)value;
+- (void)removeFollowersObject:(User *)value;
+- (void)addFollowers:(NSSet<User *> *)values;
+- (void)removeFollowers:(NSSet<User *> *)values;
 
 @end
 

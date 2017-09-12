@@ -25,14 +25,14 @@
 - (void) setUserForTimeline:(User *)user {
     self.userScreenName = user.screenName;
 }
-
+/*
 - (NSMutableArray*) tweets {
     if(!_tweets) {
         _tweets = [[NSMutableArray alloc]init];
     }
     return _tweets;
 }
-
+*/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.tweets count];
@@ -57,6 +57,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     if(indexPath.row == [self.tweets count] - 5 && self.loadMoreData) {
         [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxId]}  completion:^(NSArray *tweets, NSError *error) {
             if([tweets count] > 0) {
+                [self sortTweetsListByCreatedAt:&tweets];
                 [self.tweets addObjectsFromArray:tweets];
                 [self.tableView reloadData];
             }
@@ -78,7 +79,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
+        self.tweets = [[NSMutableArray alloc]init];
         if([tweets count] > 0) {
+            [self sortTweetsListByCreatedAt:&tweets];
             [self.tweets addObjectsFromArray:tweets];
             [self.tableView reloadData];
         }
@@ -102,6 +105,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)refreshTable {
     [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
         [self.tweets removeAllObjects];
+        [self sortTweetsListByCreatedAt:&tweets];
         [self.tweets addObjectsFromArray:tweets];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
@@ -127,6 +131,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     else {
         return [NSString stringWithFormat:@"%@?max_id=%@", self.endPoint,maxId];
     }
+}
+
+-(void)sortTweetsListByCreatedAt:(NSArray**)tweets {
+    NSSortDescriptor * createdAtSortDescriptor;
+    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
+                                                          ascending:NO];
+    *tweets = [NSMutableArray arrayWithArray:[*tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
 }
 
 @end

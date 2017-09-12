@@ -33,7 +33,7 @@
     self.FollowingNavigationController = [[UINavigationController alloc] initWithRootViewController: followingTab];
     self.FollowersNavigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
     self.ProfileNavigationController = [[UINavigationController alloc] initWithRootViewController: profileTab];
-    //[tabViewControllers addObject:self.HomeNavigationController];
+    [tabViewControllers addObject:self.HomeNavigationController];
     [tabViewControllers addObject:self.FollowingNavigationController];
     [tabViewControllers addObject:self.FollowersNavigationController];
     [tabViewControllers addObject:self.ProfileNavigationController];

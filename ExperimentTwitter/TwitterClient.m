@@ -54,11 +54,8 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
             NSLog(@"Fetching user");
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
             User* user = [User userWithTwitterInfo:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
-            
-            //[User setCurrentUser:user];  //IMPORTANT UNCOMMENT THIS
-            
+            [User setCurrentUser:user];  //IMPORTANT UNCOMMENT THIS
             NSLog(@"Current User : %@",user.name);
             self.loginCompletion(user, nil);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

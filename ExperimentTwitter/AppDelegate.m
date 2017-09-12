@@ -12,12 +12,12 @@
 #import "User+Twitter.h"
 #import "Tweet+Twitter.h"
 #import "TabBarViewController.h"
+#import "User+CoreDataProperties.h"
 
 @interface AppDelegate ()
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -25,6 +25,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogOutNotification object:nil];
     User *user = [User currentUser];
     if(user != nil) {
+       // NSLog(@"%@", user);
         NSLog(@"Welcome %@ !", user.name);
         self.window.rootViewController = [[TabBarViewController alloc]init];
     } else {
@@ -34,6 +35,7 @@
     [self.window makeKeyAndVisible];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:3/255.0 green:119/255.0 blue:244/255.0 alpha:1.0]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     return YES;
 }
 
@@ -122,7 +124,6 @@
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
