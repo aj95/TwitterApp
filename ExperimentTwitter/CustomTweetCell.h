@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Tweet.h"
+#import "Tweet+Twitter.h"
 
 @interface CustomTweetCell : UITableViewCell
 @property (weak, nonatomic, nullable) IBOutlet UILabel *userNameLabel;

@@ -7,7 +7,7 @@
 //
 
 #import "UserTimelineViewController.h"
-
+#import "CoreDataHelper.h"
 
 @implementation UserTimelineViewController
 
@@ -19,7 +19,21 @@
 
 - (void)viewDidLoad {
     self.endPoint = @"1.1/statuses/user_timeline.json";
+    [self loadTweetsFromCoreData:self.userScreenName];
     [super viewDidLoad];
+}
+
+- (void) loadTweetsFromCoreData:(NSString*)userScreenName{
+    NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user.screenName = %@",userScreenName]];
+    NSSortDescriptor * createdAtSortDescriptor;
+    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
+                                            ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
+    self.tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    NSLog(@"Loaded %ld tweets for %@ from coreData",[self.tweets count], userScreenName);
+    [self.tableView reloadData];
 }
 
 @end

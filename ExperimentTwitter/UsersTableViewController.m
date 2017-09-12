@@ -11,9 +11,9 @@
 #import "PostTweetViewController.h"
 #import "CustomUserCell.h"
 #import "TwitterClient.h"
+#import "User+Twitter.h"
 
 @interface UsersTableViewController ()
-@property (strong, nonatomic) NSMutableArray * users;
 @property (strong, nonatomic) NSString *cursor;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
@@ -47,8 +47,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     if(indexPath.row == [self.users count] - 5 && ![self.cursor isEqualToString:@"0"]) {
         [[TwitterClient sharedInstance]usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
             [self.users addObjectsFromArray:users];
-            [self.tableView reloadData];
+            [self setRelationshipOnUsers:users];
             self.cursor = cursor;
+            [self.tableView reloadData];
         }];
     }
 }
@@ -72,6 +73,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
         self.users = [[NSMutableArray alloc]init];
         [self.users addObjectsFromArray:users];
+        [self setRelationshipOnUsers:users];
         self.cursor = cursor;
         [self.tableView reloadData];
     }];
@@ -93,6 +95,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
         [self.users removeAllObjects];
         [self.users addObjectsFromArray:users];
+        [self setRelationshipOnUsers:users];
+        self.cursor = cursor;
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     }];
@@ -100,6 +104,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(NSString*) getEndPoint {
     return [NSString stringWithFormat:@"%@?cursor=%@",self.endPoint, self.cursor];
+}
+
+-(void)setRelationshipOnUsers:(NSArray *)users {
+    // Implemented in subclasses
 }
 
 @end

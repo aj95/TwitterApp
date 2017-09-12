@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UsersTableViewController : UITableViewController
+@property (strong, nonatomic) NSMutableArray *users;
 @property(strong, nonatomic) NSString *endPoint;
+- (void)setRelationshipOnUsers:(NSArray *)users;
 @end

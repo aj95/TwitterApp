@@ -7,7 +7,7 @@
 //
 
 #import <BDBOAuth1Manager/BDBOAuth1SessionManager.h>
-#import "User.h"
+#import "User+Twitter.h"
 
 @interface TwitterClient : BDBOAuth1SessionManager
 

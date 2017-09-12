@@ -34,8 +34,8 @@
     else
         dateFormatter.timeStyle = NSFormattingUnitStyleShort;
     self.createdAtLabel.text = [dateFormatter stringFromDate:_tweet.createdAt];
-    self.favouriteCountLabel.text = _tweet.favouriteCount;
-    self.retweetCountLabel.text = _tweet.retweetedCount;
+    self.favouriteCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.favouriteCount];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.retweetedCount];
 }
 
 - (IBAction)onPressingFavouriteButton:(id)sender {

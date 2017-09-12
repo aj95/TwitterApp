@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "User.h"
+#import "User+Twitter.h"
 
 @interface CustomUserCell : UITableViewCell
 

@@ -10,14 +10,12 @@
 #import "PostTweetViewController.h"
 #import "CustomTweetCell.h"
 #import "TwitterClient.h"
-#import "Tweet.h"
+#import "Tweet+Twitter.h"
 
 
 @interface TweetsTableViewController ()
-@property (strong, nonatomic) NSMutableArray* tweets;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (nonatomic) BOOL loadMoreData;
-@property (strong, nonatomic) NSString* userScreenName;
 @end
 
 @implementation TweetsTableViewController
@@ -128,7 +126,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
     else {
         return [NSString stringWithFormat:@"%@?max_id=%@", self.endPoint,maxId];
-        
     }
 }
 

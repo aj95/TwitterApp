@@ -7,7 +7,10 @@
 //
 
 #import "TwitterClient.h"
-#import "Tweet.h"
+#import "Tweet+Twitter.h"
+#import "User+Twitter.h"
+#import "CoreDataHelper.h"
+#import "Tweet+Twitter.h"
 
 NSString * const twitterConsumerKey = @"2RV0vPnG8lbcdOqDL9nBl9y0E";
 NSString * const twitterConsumerSecret = @"1ua0pfkMArkBzuHxQhpAK4MQda7AhSs2n4g6BxQVLbAIyifRRo";
@@ -49,9 +52,13 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
         [self.requestSerializer saveAccessToken: accessToken];
         [self GET:@"1.1/account/verify_credentials.json" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             NSLog(@"Fetching user");
+            
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            User* user = [[User alloc] initWithDictionary:responseObject];
-            [User setCurrentUser:user];
+            
+            User* user = [User userWithTwitterInfo:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
+            
+            //[User setCurrentUser:user];  //IMPORTANT UNCOMMENT THIS
+            
             NSLog(@"Current User : %@",user.name);
             self.loginCompletion(user, nil);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -128,7 +135,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSMutableArray *users = [[NSMutableArray alloc] init];
         for(NSDictionary *dictionary in responseObject[@"users"]) {
-            [users addObject:[[User alloc] initWithDictionary:dictionary]];
+            [users addObject:[User userWithTwitterInfo:dictionary inManagedObjectContext:[CoreDataHelper managedObjectContext]]];
         }
         completion(users,responseObject[@"next_cursor_str"], nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -143,7 +150,7 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
     [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Downloading tweets");
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        NSArray *tweets = [Tweet loadTweetsFromArray:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
         completion(tweets, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Failed to download tweets!");
