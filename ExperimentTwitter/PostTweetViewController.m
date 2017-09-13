@@ -22,6 +22,8 @@
     self.tweetText.layer.borderWidth = 1.0f;
     self.tweetText.layer.borderColor = [[UIColor blackColor] CGColor];
     self.tweetText.layer.cornerRadius = 8;
+    [self.tweetText scrollRangeToVisible:NSMakeRange(0, 1)];
+
 }
 
 - (IBAction)onTweetPress:(id)sender {
@@ -37,6 +39,10 @@
         return YES;
     }
     return NO;
+}
+
+- (void)viewDidLayoutSubviews {
+    [self.tweetText setContentOffset:CGPointZero animated:NO];
 }
 
 @end

@@ -45,11 +45,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == [self.users count] - 5 && ![self.cursor isEqualToString:@"0"]) {
         [[TwitterClient sharedInstance]usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-            [self sortUsersListByFirstName:&users];
-            [self.users addObjectsFromArray:users];
-            [self setRelationshipOnUsers:users];
-            self.cursor = cursor;
-            [self.tableView reloadData];
+            if(!error) {
+                [self sortUsersListByFirstName:&users];
+                [self.users addObjectsFromArray:users];
+                [self setRelationshipOnUsers:users];
+                self.cursor = cursor;
+                [self.tableView reloadData];
+            }
         }];
     }
 }
@@ -71,12 +73,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-        self.users = [[NSMutableArray alloc]init];
-        [self sortUsersListByFirstName:&users];
-        [self.users addObjectsFromArray:users];
-        [self setRelationshipOnUsers:users];
-        self.cursor = cursor;
-        [self.tableView reloadData];
+        if(!error) {
+            self.users = [[NSMutableArray alloc]init];
+            [self sortUsersListByFirstName:&users];
+            [self.users addObjectsFromArray:users];
+            [self setRelationshipOnUsers:users];
+            self.cursor = cursor;
+            [self.tableView reloadData];
+        }
     }];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
                                     initWithTitle:@"Tweet"
@@ -94,13 +98,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)refreshTable {
     self.cursor = @"-1";
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-        [self.users removeAllObjects];
-        [self sortUsersListByFirstName:&users];
-        [self.users addObjectsFromArray:users];
-        [self setRelationshipOnUsers:users];
-        self.cursor = cursor;
-        [self.refreshControl endRefreshing];
-        [self.tableView reloadData];
+        if(!error) {
+            [self.users removeAllObjects];
+            [self sortUsersListByFirstName:&users];
+            [self.users addObjectsFromArray:users];
+            [self setRelationshipOnUsers:users];
+            self.cursor = cursor;
+            [self.refreshControl endRefreshing];
+            [self.tableView reloadData];
+        }
     }];
 }
 

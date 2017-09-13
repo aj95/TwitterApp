@@ -33,10 +33,10 @@
     self.FollowingNavigationController = [[UINavigationController alloc] initWithRootViewController: followingTab];
     self.FollowersNavigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
     self.ProfileNavigationController = [[UINavigationController alloc] initWithRootViewController: profileTab];
-    [tabViewControllers addObject:self.HomeNavigationController];
-    [tabViewControllers addObject:self.FollowingNavigationController];
+    //[tabViewControllers addObject:self.HomeNavigationController];
+    //[tabViewControllers addObject:self.FollowingNavigationController];
     [tabViewControllers addObject:self.FollowersNavigationController];
-    [tabViewControllers addObject:self.ProfileNavigationController];
+    //[tabViewControllers addObject:self.ProfileNavigationController];
     [self setViewControllers:tabViewControllers];
     homeTimelineTab.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image: [UIImage imageNamed:@"HomeButton"] tag:1];
     followingTab.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Following" image: [UIImage imageNamed:@"FollowingButton"] tag:2];

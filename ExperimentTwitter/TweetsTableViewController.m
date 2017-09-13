@@ -27,10 +27,10 @@
 }
 /*
 - (NSMutableArray*) tweets {
-    if(!_tweets) {
-        _tweets = [[NSMutableArray alloc]init];
+    if(!self.tweets) {
+        self.tweets = [[NSMutableArray alloc]init];
     }
-    return _tweets;
+    return self.tweets;
 }
 */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -56,13 +56,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == [self.tweets count] - 5 && self.loadMoreData) {
         [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxId]}  completion:^(NSArray *tweets, NSError *error) {
-            if([tweets count] > 0) {
-                [self sortTweetsListByCreatedAt:&tweets];
-                [self.tweets addObjectsFromArray:tweets];
-                [self.tableView reloadData];
-            }
-            else {
-                self.loadMoreData = NO;
+            if(!error) {
+                if([tweets count] > 0) {
+                    [self sortTweetsListByCreatedAt:&tweets];
+                    [self.tweets addObjectsFromArray:tweets];
+                    [self.tableView reloadData];
+                }
+                else {
+                    self.loadMoreData = NO;
+                }
             }
         }];
     }
@@ -79,14 +81,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
-        self.tweets = [[NSMutableArray alloc]init];
-        if([tweets count] > 0) {
-            [self sortTweetsListByCreatedAt:&tweets];
-            [self.tweets addObjectsFromArray:tweets];
-            [self.tableView reloadData];
-        }
-        else {
-            self.loadMoreData = NO;
+        if(!error) {
+            self.tweets = [[NSMutableArray alloc]init];
+            if([tweets count] > 0) {
+                [self sortTweetsListByCreatedAt:&tweets];
+                [self.tweets addObjectsFromArray:tweets];
+                [self.tableView reloadData];
+            }
+            else {
+                self.loadMoreData = NO;
+            }
         }
     }];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
@@ -104,11 +108,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)refreshTable {
     [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
-        [self.tweets removeAllObjects];
-        [self sortTweetsListByCreatedAt:&tweets];
-        [self.tweets addObjectsFromArray:tweets];
-        [self.refreshControl endRefreshing];
-        [self.tableView reloadData];
+         if(!error) {
+             [self.tweets removeAllObjects];
+             [self sortTweetsListByCreatedAt:&tweets];
+             [self.tweets addObjectsFromArray:tweets];
+             [self.refreshControl endRefreshing];
+             [self.tableView reloadData];
+         }
     }];
 
 }
