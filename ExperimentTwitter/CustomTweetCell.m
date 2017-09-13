@@ -81,6 +81,8 @@
     self.createdAtLabel.text = [dateFormatter stringFromDate:_tweet.createdAt];
     self.favouriteCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.favouriteCount];
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.retweetedCount];
+    if(_tweet.isFavourited) [self.favoriteButton setSelected:YES];
+    if(_tweet.isRetweeted) [self.retweetButton setSelected:YES];
 }
 
 - (IBAction)onPressingFavouriteButton:(id)sender {
@@ -88,11 +90,11 @@
         [sender setImage:[UIImage imageNamed:@"icon-heart"] forState:UIControlStateNormal];
         [sender setSelected:NO];
         _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] - 1];
-         [[TwitterClient sharedInstance] unlikeTweetWithId : _tweet.tweetId];
+        [[TwitterClient sharedInstance] unlikeTweetWithId : _tweet.tweetId];
     } else {
         [sender setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateSelected];
         [sender setSelected:YES];
-         _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
+        _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
         [[TwitterClient sharedInstance] likeTweetWithId : _tweet.tweetId];
         
     }
@@ -111,7 +113,5 @@
         [[TwitterClient sharedInstance] retweetTweetWithId : _tweet.tweetId];
     }
 }
-
-
 
 @end

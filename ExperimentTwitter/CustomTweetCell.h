@@ -20,4 +20,8 @@
 @property (strong, nonatomic, nullable) NSString* cellTag;
 @property (weak, nonatomic, nullable) IBOutlet UILabel *favouriteCountLabel;
 @property (weak, nonatomic, nullable) IBOutlet UILabel *retweetCountLabel;
+@property (weak, nonatomic, nullable) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic, nullable) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic, nullable) IBOutlet UIButton *replyButton;
+
 @end

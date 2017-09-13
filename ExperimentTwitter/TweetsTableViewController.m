@@ -47,6 +47,8 @@
     }
     Tweet *tweet = [self.tweets objectAtIndex:indexPath.row];
     cell.tweet = tweet;
+    cell.replyButton.tag = indexPath.row;
+    [cell.replyButton addTarget:self action:@selector(onReplyButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -69,7 +71,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }];
     }
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,6 +104,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
+    [[self navigationController] pushViewController:viewController animated:YES];
+}
+
+-(IBAction)onReplyButtonPress:(UIButton*)sender {
+    PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:[self.tweets objectAtIndex:sender.tag]];
     [[self navigationController] pushViewController:viewController animated:YES];
 }
 
@@ -145,5 +151,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                                           ascending:NO];
     *tweets = [NSMutableArray arrayWithArray:[*tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
 }
+
+
 
 @end

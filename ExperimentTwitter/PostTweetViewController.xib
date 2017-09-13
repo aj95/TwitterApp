@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostTweetViewController">
             <connections>
                 <outlet property="charactersLeftLabel" destination="QuL-Q8-LlD" id="1yp-ct-c17"/>
+                <outlet property="tweetButton" destination="J8v-kB-aev" id="jTl-1e-Hu0"/>
                 <outlet property="tweetText" destination="5ZN-10-Slo" id="1Df-6l-m3d"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

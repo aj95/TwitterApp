@@ -9,6 +9,7 @@
 #import "Tweet+Twitter.h"
 #import "User+Twitter.h"
 #import "CoreDataHelper.h"
+#import "TwitterClient.h"
 
 @implementation Tweet (Twitter)
 

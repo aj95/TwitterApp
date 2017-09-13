@@ -112,9 +112,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGQ-fr-Eok">
                                         <rect key="frame" x="143" y="0.0" width="15" height="22"/>
                                         <state key="normal" image="icon-reply"/>
-                                        <connections>
-                                            <action selector="onPressingReplyButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0pP-mC-uPA"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -132,15 +129,18 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="createdAtLabel" destination="igS-n9-ABn" id="vYA-HY-XPP"/>
+                <outlet property="favoriteButton" destination="pt9-0z-95b" id="74n-sa-Kcu"/>
                 <outlet property="favouriteCountLabel" destination="lDQ-fM-Qj5" id="XRt-Uw-dl5"/>
                 <outlet property="handleLabel" destination="DU3-eL-dkb" id="EXL-LH-9Jx"/>
                 <outlet property="profileImageView" destination="Q2I-Tv-trc" id="qCE-CN-ei3"/>
+                <outlet property="replyButton" destination="bGQ-fr-Eok" id="Y5k-Dc-FdR"/>
+                <outlet property="retweetButton" destination="w4e-6y-zYY" id="Z8S-ee-Nif"/>
                 <outlet property="retweetCountLabel" destination="zN6-0H-Saf" id="Q2X-MV-51f"/>
                 <outlet property="tweetImageView" destination="itI-XY-7xL" id="6sb-hR-rJ0"/>
                 <outlet property="tweetTextLabel" destination="1Go-0A-5LT" id="4ik-wD-LPL"/>
                 <outlet property="userNameLabel" destination="7Rg-zD-D0r" id="V5v-bQ-1dC"/>
             </connections>
-            <point key="canvasLocation" x="-881" y="119"/>
+            <point key="canvasLocation" x="-998" y="74"/>
         </tableViewCell>
     </objects>
     <resources>
