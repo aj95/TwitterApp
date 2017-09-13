@@ -21,7 +21,7 @@
 -(id) initForReplyToTweet:(Tweet *)tweet {
     self = [super init];
     self.inReplyToTweet = tweet;
-    NSLog(@"%@ %@", self.inReplyToTweet.tweetId, self.inReplyToTweet.user.screenName);
+    //NSLog(@"%@ %@", self.inReplyToTweet.tweetId, self.inReplyToTweet.user.screenName);
     return self;
 }
 
@@ -31,6 +31,7 @@
     self.tweetText.layer.borderWidth = 1.0f;
     self.tweetText.layer.borderColor = [[UIColor blackColor] CGColor];
     self.tweetText.layer.cornerRadius = 8;
+    self.tweetButton.layer.cornerRadius = 8;
     [self.tweetText scrollRangeToVisible:NSMakeRange(0, 1)];
     if(self.inReplyToTweet != nil)
         [self.tweetButton setTitle:@"Reply" forState:UIControlStateNormal];
@@ -44,7 +45,7 @@
         [[TwitterClient sharedInstance] postTweet:text];
     else  {
         text = [NSString stringWithFormat:@"@%@ %@", self.inReplyToTweet.user.screenName, text];
-        NSLog(@"%@", text);
+        //NSLog(@"%@", text);
         [[TwitterClient sharedInstance] replyToTweetWithId:self.inReplyToTweet.tweetId andTweetText:text];
     }
 }

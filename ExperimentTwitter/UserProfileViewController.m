@@ -131,6 +131,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
     self.profileImageView.clipsToBounds = YES;
 }
+- (IBAction)onLogoutPress:(id)sender {
+    [User logout];
+}
+
 
 
 @end

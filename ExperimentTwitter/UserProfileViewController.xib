@@ -61,13 +61,22 @@
                         </label>
                     </subviews>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zmg-n9-u1f">
+                    <rect key="frame" x="111" y="122.5" width="48" height="30"/>
+                    <state key="normal" title="Logout"/>
+                    <connections>
+                        <action selector="onLogoutPress:" destination="-1" eventType="touchUpInside" id="CaV-2l-QQS"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="Zmg-n9-u1f" firstAttribute="leading" secondItem="KwC-TB-3qb" secondAttribute="trailing" constant="7" id="A2y-j8-7dM"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="vUQ-3u-uda" secondAttribute="top" id="FVr-cv-3az"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="IBw-yO-5Su"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="65" id="SEG-YS-FNC"/>
                 <constraint firstAttribute="bottom" secondItem="zkc-Mz-gds" secondAttribute="bottom" constant="20" id="Veu-Kw-cUq"/>
+                <constraint firstItem="Zmg-n9-u1f" firstAttribute="top" secondItem="vUQ-3u-uda" secondAttribute="bottom" constant="14.5" id="Yv5-kL-rPb"/>
                 <constraint firstItem="zkc-Mz-gds" firstAttribute="top" secondItem="KwC-TB-3qb" secondAttribute="bottom" id="dNL-es-Bdu"/>
                 <constraint firstItem="zkc-Mz-gds" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailingMargin" id="plt-YE-LaN"/>
                 <constraint firstItem="KwC-TB-3qb" firstAttribute="leading" secondItem="zkc-Mz-gds" secondAttribute="leading" id="wfT-w5-HLh"/>
