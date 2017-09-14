@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		097A4164ED7FCE1434AFC22D /* libPods-ExperimentTwitter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FBC71A5D56B2ED98ECB2118 /* libPods-ExperimentTwitter.a */; };
+		380F1AE61F6A765000230006 /* TweetsSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F1AE51F6A765000230006 /* TweetsSearchViewController.m */; };
 		383122141F4FF3F600FFE0DB /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383122121F4FF3F600FFE0DB /* LogInViewController.m */; };
 		383122151F4FF3F600FFE0DB /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383122131F4FF3F600FFE0DB /* LogInViewController.xib */; };
 		3831221B1F4FF77300FFE0DB /* TwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3831221A1F4FF77300FFE0DB /* TwitterClient.m */; };
@@ -62,6 +63,8 @@
 
 /* Begin PBXFileReference section */
 		1FBC71A5D56B2ED98ECB2118 /* libPods-ExperimentTwitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ExperimentTwitter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		380F1AE41F6A765000230006 /* TweetsSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsSearchViewController.h; sourceTree = "<group>"; };
+		380F1AE51F6A765000230006 /* TweetsSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsSearchViewController.m; sourceTree = "<group>"; };
 		383122111F4FF3F600FFE0DB /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		383122121F4FF3F600FFE0DB /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		383122131F4FF3F600FFE0DB /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInViewController.xib; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 				3880CC081F61605300BE3C0F /* FollowingViewController.m */,
 				3880CC0A1F6182B700BE3C0F /* UsersTableViewController.h */,
 				3880CC0B1F6182B700BE3C0F /* UsersTableViewController.m */,
+				380F1AE41F6A765000230006 /* TweetsSearchViewController.h */,
+				380F1AE51F6A765000230006 /* TweetsSearchViewController.m */,
 				3831221C1F50124F00FFE0DB /* Model */,
 				38C02F231F4DC6FD005D0A59 /* Assets.xcassets */,
 				38C02F251F4DC6FD005D0A59 /* LaunchScreen.storyboard */,
@@ -494,6 +499,7 @@
 				3880CC091F61605300BE3C0F /* FollowingViewController.m in Sources */,
 				3880CCC91F68127600BE3C0F /* Tweet+CoreDataClass.m in Sources */,
 				3880CCCB1F68127600BE3C0F /* User+CoreDataClass.m in Sources */,
+				380F1AE61F6A765000230006 /* TweetsSearchViewController.m in Sources */,
 				3880CBF51F5D655C00BE3C0F /* UserProfileViewController.m in Sources */,
 				38ED350E1F55B7D8004FC343 /* TabBarViewController.m in Sources */,
 				3880CC761F66C2D000BE3C0F /* TwitterDataModel.xcdatamodeld in Sources */,

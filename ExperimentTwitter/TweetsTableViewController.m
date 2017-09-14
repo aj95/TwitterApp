@@ -11,7 +11,7 @@
 #import "CustomTweetCell.h"
 #import "TwitterClient.h"
 #import "Tweet+Twitter.h"
-
+#import "TweetsSearchViewController.h"
 
 @interface TweetsTableViewController ()
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
@@ -81,29 +81,43 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
-    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
-        if(!error) {
-            self.tweets = [[NSMutableArray alloc]init];
-            if([tweets count] > 0) {
-                [self sortTweetsListByCreatedAt:&tweets];
-                [self.tweets addObjectsFromArray:tweets];
-                [self.tableView reloadData];
+    if(self.endPoint) {
+        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
+            if(!error) {
+                self.tweets = [[NSMutableArray alloc]init];
+                if([tweets count] > 0) {
+                    [self sortTweetsListByCreatedAt:&tweets];
+                    [self.tweets addObjectsFromArray:tweets];
+                    [self.tableView reloadData];
+                }
+                else {
+                    self.loadMoreData = NO;
+                }
             }
-            else {
-                self.loadMoreData = NO;
-            }
-        }
-    }];
+        }];
+    }
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Tweet"
                                    style:UIBarButtonItemStylePlain
                                    target:self
                                    action:@selector(onTweetButtonPress)];
     self.navigationItem.rightBarButtonItem = tweetButton;
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                    initWithTitle:@"Search"
+                                    style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(onSearchButtonPress)];
+    self.navigationItem.leftBarButtonItem = searchButton;
+    
 }
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
+    [[self navigationController] pushViewController:viewController animated:YES];
+}
+
+-(IBAction)onSearchButtonPress {
+    TweetsSearchViewController *viewController = [[TweetsSearchViewController alloc]init];
     [[self navigationController] pushViewController:viewController animated:YES];
 }
 

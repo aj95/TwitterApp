@@ -12,6 +12,7 @@
 #import "CustomUserCell.h"
 #import "TwitterClient.h"
 #import "User+Twitter.h"
+#import "TweetsSearchViewController.h"
 
 @interface UsersTableViewController ()
 @property (strong, nonatomic) NSString *cursor;
@@ -88,10 +89,22 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                     target:self
                                     action:@selector(onTweetButtonPress)];
     self.navigationItem.rightBarButtonItem = tweetButton;
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Search"
+                                     style:UIBarButtonItemStylePlain
+                                     target:self
+                                     action:@selector(onSearchButtonPress)];
+    self.navigationItem.leftBarButtonItem = searchButton;
 }
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
+    [[self navigationController] pushViewController:viewController animated:YES];
+}
+
+
+-(IBAction)onSearchButtonPress {
+    TweetsSearchViewController *viewController = [[TweetsSearchViewController alloc]init];
     [[self navigationController] pushViewController:viewController animated:YES];
 }
 

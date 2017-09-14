@@ -21,6 +21,8 @@
     self.endPoint = @"1.1/statuses/user_timeline.json";
     [self loadTweetsFromCoreData:self.userScreenName];
     [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void) loadTweetsFromCoreData:(NSString*)userScreenName{
