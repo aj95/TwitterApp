@@ -9,5 +9,5 @@
 #import "TweetsTableViewController.h"
 
 @interface TweetsSearchViewController : TweetsTableViewController<UISearchBarDelegate>
-
+@property (strong, nonatomic) NSMutableArray* tweets;
 @end

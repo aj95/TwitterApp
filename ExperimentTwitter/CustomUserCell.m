@@ -7,6 +7,7 @@
 //
 
 #import "CustomUserCell.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 
 @implementation CustomUserCell
 
@@ -24,7 +25,7 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.profileImageView.image = [UIImage imageWithData:imageData];
         });
-    });*/
+    });*//*
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
@@ -38,8 +39,9 @@
             // }
         }
     }];
-    [task resume];
+    [task resume];*/
     //self.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.profileImageUrl]]];
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
     self.profileImageView.clipsToBounds = YES;
 }

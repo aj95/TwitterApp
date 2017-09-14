@@ -25,14 +25,8 @@
 - (void) setUserForTimeline:(User *)user {
     self.userScreenName = user.screenName;
 }
-/*
-- (NSMutableArray*) tweets {
-    if(!self.tweets) {
-        self.tweets = [[NSMutableArray alloc]init];
-    }
-    return self.tweets;
-}
-*/
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.tweets count];
@@ -53,6 +47,7 @@
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -70,6 +65,21 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             }
         }];
     }
+}
+
+- (void) fetchMoreTweets {
+    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxId]}  completion:^(NSArray *tweets, NSError *error) {
+        if(!error) {
+            if([tweets count] > 0) {
+                [self sortTweetsListByCreatedAt:&tweets];
+                [self.tweets addObjectsFromArray:tweets];
+                [self.tableView reloadData];
+            }
+            else {
+                self.loadMoreData = NO;
+            }
+        }
+    }];
 }
 
 - (void)viewDidLoad {
@@ -161,11 +171,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)sortTweetsListByCreatedAt:(NSArray**)tweets {
     NSSortDescriptor * createdAtSortDescriptor;
-    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
-                                                          ascending:NO];
+    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     *tweets = [NSMutableArray arrayWithArray:[*tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
 }
-
 
 
 @end

@@ -24,7 +24,6 @@
 }
 
 - (void)setRelationshipOnUsers:(NSArray *)users {
-    //NSLog(@"%ld",[users count]);
     [[User currentUser] addFollowers:[NSSet setWithArray:users]];
 }
 

@@ -24,10 +24,6 @@
 }
 
 - (void)setRelationshipOnUsers:(NSArray *)users {
-    //NSLog(@"%@", users);
-    //if (!users) {
-    //    users = self.users;
-   // }
     [[User currentUser] addFollowing:[NSSet setWithArray:users]];
 }
 

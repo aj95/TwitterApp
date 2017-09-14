@@ -10,7 +10,9 @@
 #import "CustomTweetCell.h"
 #import "TwitterClient.h"
 #import "PostTweetViewController.h"
-
+#import "UserTimelineViewController.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+/*
 @interface UserProfileViewController ()
 @property (strong, nonatomic) NSMutableArray* tweets;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
@@ -124,6 +126,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 }
 
+
 - (void) updateUI {
     self.handleLabel.text = [NSString stringWithFormat: @"@%@", self.user.screenName];
     self.userNameLabel.text = self.user.name;
@@ -131,10 +134,45 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
     self.profileImageView.clipsToBounds = YES;
 }
+
+
 - (IBAction)onLogoutPress:(id)sender {
     [User logout];
 }
 
+*/
 
+@interface UserProfileViewController ()
+@property (strong, nonatomic) UserTimelineViewController* myProfileViewController;
+@end
+
+@implementation UserProfileViewController
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _myProfileViewController = [[UserTimelineViewController alloc] initWithUser:[User currentUser]];
+    self.tableView.dataSource = _myProfileViewController;
+    self.tableView.delegate = _myProfileViewController;
+    [self updateUI];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 333;
+    [_myProfileViewController viewDidLoad];
+    
+}
+
+- (void) updateUI {
+    User *currentUser = [User currentUser];
+    self.handleLabel.text = [NSString stringWithFormat: @"@%@", currentUser.screenName];
+    self.userNameLabel.text = currentUser.name;
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:currentUser.profileImageUrl]];
+    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
+    self.profileImageView.clipsToBounds = YES;
+}
+
+
+- (IBAction)onLogoutPress:(id)sender {
+    [User logout];
+}
 
 @end

@@ -11,6 +11,7 @@
 #import "TwitterClient.h"
 #import "PostTweetViewController.h"
 #import "AFHTTPSessionManager.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 
 @implementation CustomTweetCell
 
@@ -25,7 +26,7 @@
     self.userNameLabel.text = _tweet.user.name;
     
     //self.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.user.profileImageUrl]]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
+    /*NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -38,7 +39,7 @@
            // }
         }
     }];
-    [task resume];
+    [task resume];*/
     /*dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
     dispatch_async(queue, ^{
         NSData *imageData=[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
@@ -55,7 +56,7 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.tweetImageView.image = [UIImage imageWithData:imageData];
         });
-    });*/
+    });*//*
     NSURLRequest *request1 = [NSURLRequest requestWithURL:[NSURL URLWithString:_tweet.mediaUrl]];
     NSURLSessionConfiguration *configuration1 = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session1 = [NSURLSession sessionWithConfiguration:configuration1];
@@ -69,9 +70,11 @@
             // }
         }
     }];
-    [task1 resume];
-
+    [task1 resume];*/
+    
     //self.tweetImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.mediaUrl]]];
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
+    [self.tweetImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.mediaUrl]];
     NSTimeInterval timeSinceCreated = [[NSDate date] timeIntervalSinceDate:_tweet.createdAt];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     if(timeSinceCreated > 86400)
