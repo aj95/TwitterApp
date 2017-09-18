@@ -17,7 +17,6 @@
 @implementation TweetsSearchViewController
 
 - (void)viewDidLoad {
-    self.endPoint = nil;
     _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     _searchController.hidesNavigationBarDuringPresentation = NO;
     _searchController.dimsBackgroundDuringPresentation = YES;

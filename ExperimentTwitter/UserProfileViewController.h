@@ -10,12 +10,5 @@
 #import "User+Twitter.h"
 #import "UserTimelineViewController.h"
 
-@interface UserProfileViewController : UIViewController
-
-@property (strong, nonatomic, nullable) User* user;
-@property (weak, nonatomic, nullable) IBOutlet UIImageView *profileImageView;
-@property (weak, nonatomic, nullable) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic, nullable) IBOutlet UILabel *handleLabel;
-@property (weak, nonatomic, nullable) IBOutlet UITableView *tableView;
-
+@interface UserProfileViewController : UserTimelineViewController
 @end

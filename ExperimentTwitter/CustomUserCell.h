@@ -12,8 +12,5 @@
 @interface CustomUserCell : UITableViewCell
 
 @property (strong, nonatomic, nullable) User* user;
-@property (weak, nonatomic, nullable) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic,nullable) IBOutlet UILabel *handleLabel;
-@property (weak, nonatomic,nullable) IBOutlet UIImageView *profileImageView;
 
 @end

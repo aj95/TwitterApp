@@ -22,11 +22,6 @@
 
 @synthesize refreshControl;
 
-- (void) setUserForTimeline:(User *)user {
-    self.userScreenName = user.screenName;
-}
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.tweets count];
@@ -52,7 +47,7 @@
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == [self.tweets count] - 5 && self.loadMoreData) {
-        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxId]}  completion:^(NSArray *tweets, NSError *error) {
+        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}  completion:^(NSArray *tweets, NSError *error) {
             if(!error) {
                 if([tweets count] > 0) {
                     [self sortTweetsListByCreatedAt:&tweets];
@@ -68,7 +63,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void) fetchMoreTweets {
-    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxId]}  completion:^(NSArray *tweets, NSError *error) {
+    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}  completion:^(NSArray *tweets, NSError *error) {
         if(!error) {
             if([tweets count] > 0) {
                 [self sortTweetsListByCreatedAt:&tweets];
@@ -91,8 +86,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
-    if(self.endPoint) {
-        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
+    if([self getEndPointWithMaxIdParameter:nil]) {
+        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]} completion:^(NSArray *tweets, NSError *error) {
             if(!error) {
                 self.tweets = [[NSMutableArray alloc]init];
                 if([tweets count] > 0) {
@@ -137,7 +132,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void)refreshTable {
-    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *tweets, NSError *error) {
+    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]} completion:^(NSArray *tweets, NSError *error) {
          if(!error) {
              [self.tweets removeAllObjects];
              [self sortTweetsListByCreatedAt:&tweets];
@@ -149,24 +144,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 }
 
--(NSString*) getEndPoint {
-    if(self.userScreenName != nil) {
-        return [NSString stringWithFormat:@"%@?screen_name=%@", self.endPoint, self.userScreenName];
-    }
-    else {
-        return self.endPoint;
-    }
+-(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
+    // OVERRIDDEN BY SUBCLASSES
+    return NULL;
 }
 
--(NSString*) getEndPointWithMaxId {
+-(NSString*) getMaxIdParameterFromLastTweet {
     Tweet *tweet = [self.tweets lastObject];
-    NSString* maxId = [NSString stringWithFormat:@"%ld",[tweet.tweetId integerValue] - 1];
-    if(self.userScreenName != nil) {
-        return [NSString stringWithFormat:@"%@?screen_name=%@&max_id=%@", self.endPoint, self.userScreenName, maxId];
-    }
-    else {
-        return [NSString stringWithFormat:@"%@?max_id=%@", self.endPoint,maxId];
-    }
+    NSString *maxId = [NSString stringWithFormat:@"%ld",[tweet.tweetId integerValue] - 1];
+    return maxId;
 }
 
 -(void)sortTweetsListByCreatedAt:(NSArray**)tweets {
@@ -174,6 +160,5 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     *tweets = [NSMutableArray arrayWithArray:[*tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
 }
-
 
 @end

@@ -13,6 +13,17 @@
 #import "AFHTTPSessionManager.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
+@interface CustomTweetCell ()
+@property (weak, nonatomic, nullable) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel *handleLabel;
+@property (weak, nonatomic,nullable) IBOutlet UILabel *createdAtLabel;
+@property (weak, nonatomic,nullable) IBOutlet UILabel *tweetTextLabel;
+@property (weak, nonatomic, nullable) IBOutlet UIImageView *profileImageView;
+@property (weak, nonatomic, nullable) IBOutlet UIImageView *tweetImageView;
+@property (weak, nonatomic, nullable) IBOutlet UILabel *favouriteCountLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel *retweetCountLabel;
+@end
+
 @implementation CustomTweetCell
 
 
@@ -24,55 +35,9 @@
 - (void) updateUI {
     self.tweetTextLabel.text = _tweet.text;
     self.userNameLabel.text = _tweet.user.name;
-    
-    //self.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.user.profileImageUrl]]];
-    /*NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(!error) {
-            //if([request.URL isEqual:_tweet.user.profileImageUrl]) {
-                //NSLog(@"Finished downloading image");
-                UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
-                //NSLog(@"Finished downloading image!");
-                dispatch_async(dispatch_get_main_queue(), ^{self.profileImageView.image = image;});
-           // }
-        }
-    }];
-    [task resume];*/
-    /*dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
-    dispatch_async(queue, ^{
-        NSData *imageData=[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            self.profileImageView.image = [UIImage imageWithData:imageData];
-        });
-    });
-    */
     self.profileImageView.layer.cornerRadius = 5.0;
     self.profileImageView.clipsToBounds = YES;
     self.handleLabel.text = [NSString stringWithFormat: @"@%@", _tweet.user.screenName];
-    /*dispatch_async(queue, ^{
-        NSData *imageData=[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.mediaUrl]];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            self.tweetImageView.image = [UIImage imageWithData:imageData];
-        });
-    });*//*
-    NSURLRequest *request1 = [NSURLRequest requestWithURL:[NSURL URLWithString:_tweet.mediaUrl]];
-    NSURLSessionConfiguration *configuration1 = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    NSURLSession *session1 = [NSURLSession sessionWithConfiguration:configuration1];
-    NSURLSessionDownloadTask *task1 = [session1 downloadTaskWithRequest:request1 completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(!error) {
-            //if([request.URL isEqual:_tweet.user.profileImageUrl]) {
-            //NSLog(@"Finished downloading image");
-            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
-            //NSLog(@"Finished downloading image!");
-            dispatch_async(dispatch_get_main_queue(), ^{self.tweetImageView.image = image;});
-            // }
-        }
-    }];
-    [task1 resume];*/
-    
-    //self.tweetImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_tweet.mediaUrl]]];
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
     [self.tweetImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.mediaUrl]];
     NSTimeInterval timeSinceCreated = [[NSDate date] timeIntervalSinceDate:_tweet.createdAt];
@@ -84,8 +49,14 @@
     self.createdAtLabel.text = [dateFormatter stringFromDate:_tweet.createdAt];
     self.favouriteCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.favouriteCount];
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.retweetedCount];
-    if(_tweet.isFavourited) [self.favoriteButton setSelected:YES];
-    if(_tweet.isRetweeted) [self.retweetButton setSelected:YES];
+    if(_tweet.isFavourited) {
+        //[self.favoriteButton setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateSelected];
+        [self.favoriteButton setSelected:YES];
+    }
+    if(_tweet.isRetweeted) {
+        //[self.retweetButton setImage:[UIImage imageNamed:@"icon-retweet-selected"] forState:UIControlStateSelected];
+        [self.retweetButton setSelected:YES];
+    }
 }
 
 - (IBAction)onPressingFavouriteButton:(id)sender {
@@ -99,7 +70,6 @@
         [sender setSelected:YES];
         _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
         [[TwitterClient sharedInstance] likeTweetWithId : _tweet.tweetId];
-        
     }
 }
 

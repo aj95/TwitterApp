@@ -151,16 +151,18 @@ NSString * const twitterBaseURL = @"https://api.twitter.com";
 - (void)tweetsWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users,NSError *error))completion {
     NSString *endPoint = params[@"endPoint"];
     NSLog(@"%@", endPoint);
-    [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"Downloading tweets");
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSArray *tweets = [Tweet loadTweetsFromArray:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
-        completion(tweets, nil);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"Failed to download tweets!");
-        NSLog(@"%@", endPoint);
-        completion(nil, error);
-    }];
+    if(endPoint) {
+        [self GET:endPoint parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"Downloading tweets");
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSArray *tweets = [Tweet loadTweetsFromArray:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
+            completion(tweets, nil);
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"Failed to download tweets!");
+            NSLog(@"%@", endPoint);
+            completion(nil, error);
+        }];
+    }
 }
 
 @end

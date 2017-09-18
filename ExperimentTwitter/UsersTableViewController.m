@@ -135,4 +135,5 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     NSSortDescriptor * nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     *users = [NSMutableArray arrayWithArray:[*users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
 }
+
 @end

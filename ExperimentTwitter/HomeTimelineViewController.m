@@ -11,8 +11,9 @@
 
 @implementation HomeTimelineViewController
 
+NSString * const twitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
+
 - (void)viewDidLoad {
-    self.endPoint = @"1.1/statuses/home_timeline.json";
     self.navigationItem.title = @"Home";
     [self loadTweetsFromCoreData];
     [super viewDidLoad];
@@ -32,5 +33,16 @@
     NSLog(@"Fetched %ld tweets for home timeline", [self.tweets count]);
     [self.tableView reloadData];
 }
+
+
+-(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
+    if(maxId) {
+        return [NSString stringWithFormat:@"%@?max_id=%@", twitterHomeTimelineKey, maxId];
+    }
+    else {
+        return twitterHomeTimelineKey;
+    }
+}
+
 
 @end

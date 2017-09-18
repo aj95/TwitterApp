@@ -140,7 +140,7 @@
                 <outlet property="tweetTextLabel" destination="1Go-0A-5LT" id="4ik-wD-LPL"/>
                 <outlet property="userNameLabel" destination="7Rg-zD-D0r" id="V5v-bQ-1dC"/>
             </connections>
-            <point key="canvasLocation" x="-998" y="74"/>
+            <point key="canvasLocation" x="-1203" y="-10"/>
         </tableViewCell>
     </objects>
     <resources>

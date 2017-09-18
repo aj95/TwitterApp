@@ -21,7 +21,6 @@
 -(id) initForReplyToTweet:(Tweet *)tweet {
     self = [super init];
     self.inReplyToTweet = tweet;
-    //NSLog(@"%@ %@", self.inReplyToTweet.tweetId, self.inReplyToTweet.user.screenName);
     return self;
 }
 
@@ -45,7 +44,6 @@
         [[TwitterClient sharedInstance] postTweet:text];
     else  {
         text = [NSString stringWithFormat:@"@%@ %@", self.inReplyToTweet.user.screenName, text];
-        //NSLog(@"%@", text);
         [[TwitterClient sharedInstance] replyToTweetWithId:self.inReplyToTweet.tweetId andTweetText:text];
     }
 }

@@ -10,8 +10,5 @@
 #import "User+Twitter.h"
 
 @interface TweetsTableViewController : UITableViewController
-@property(strong, nonatomic) NSString *endPoint;
 @property (strong, nonatomic) NSMutableArray* tweets;
-@property (strong, nonatomic) NSString* userScreenName;
-- (void) setUserForTimeline : (User *)user;
 @end
