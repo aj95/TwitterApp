@@ -8,5 +8,5 @@
 
 #import "TweetsTableViewController.h"
 
-@interface TweetsSearchViewController : TweetsTableViewController<UISearchBarDelegate>
+@interface TweetsSearchViewController : UITableViewController<UISearchBarDelegate>
 @end

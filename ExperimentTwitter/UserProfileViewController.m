@@ -26,7 +26,7 @@
 }
 
 - (void)viewDidLoad {
-    self.userHeaderView = [[UserHeaderView alloc] initWithFrame:CGRectMake(0, 60, 200, 100)];
+    self.userHeaderView = [[UserHeaderView alloc] initWithFrame: CGRectMake(0, self.navigationController.navigationBar.frame.size.height + 20, self.navigationController.navigationBar.frame.size.width, 0)];
     [self.navigationController.view addSubview:self.userHeaderView];
     [self.tableView setContentInset:UIEdgeInsetsMake(108, 0, 0, 0)];
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(108, 0.0f, 0.0f, 0.0f);

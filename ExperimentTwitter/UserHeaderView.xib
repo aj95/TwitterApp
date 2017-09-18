@@ -20,7 +20,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="350" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="361" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xIy-Gm-TBt">
@@ -32,7 +32,7 @@
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lc1-69-0Ep">
-                    <rect key="frame" x="64" y="8" width="278" height="46"/>
+                    <rect key="frame" x="64" y="8" width="289" height="46"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Twitter Full Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9S-KF-0UK">
                             <rect key="frame" x="0.0" y="0.0" width="140" height="23.5"/>
@@ -68,7 +68,7 @@
                 <constraint firstItem="xIy-Gm-TBt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="unA-jJ-nNt"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-162" y="-162"/>
+            <point key="canvasLocation" x="-156.5" y="-162"/>
         </view>
     </objects>
 </document>

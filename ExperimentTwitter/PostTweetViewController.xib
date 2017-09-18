@@ -29,7 +29,7 @@
                     </items>
                 </navigationBar>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Prq-P0-l4h">
-                    <rect key="frame" x="16" y="108" width="288" height="144"/>
+                    <rect key="frame" x="16" y="108" width="288" height="143.5"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="The text of the body that span around three lines of text because it only has 140 characters." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5ZN-10-Slo">
                             <rect key="frame" x="0.0" y="0.0" width="288" height="67"/>
@@ -41,7 +41,7 @@
                             </connections>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8v-kB-aev">
-                            <rect key="frame" x="0.0" y="83" width="42" height="30.5"/>
+                            <rect key="frame" x="0.0" y="83" width="42" height="30"/>
                             <color key="backgroundColor" red="0.42870138012474612" green="0.71193531081183348" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <state key="normal" title="Tweet">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -51,7 +51,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140 characters left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QuL-Q8-LlD">
-                            <rect key="frame" x="0.0" y="129.5" width="107" height="14.5"/>
+                            <rect key="frame" x="0.0" y="129" width="107" height="14.5"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -72,7 +72,7 @@
                 <constraint firstAttribute="bottom" secondItem="Prq-P0-l4h" secondAttribute="bottom" constant="316" id="w05-4I-HWy"/>
                 <constraint firstItem="J5F-Er-26F" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wwQ-c2-JEp"/>
             </constraints>
-            <point key="canvasLocation" x="-398" y="-320"/>
+            <point key="canvasLocation" x="-489" y="-371"/>
         </view>
     </objects>
 </document>
