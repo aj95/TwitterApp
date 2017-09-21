@@ -10,19 +10,19 @@
 #import "TwitterClient.h"
 #import "CoreDataHelper.h"
 
-NSString * const UserDidLogInNotification = @"UserDidLoginNotification";
-NSString * const UserDidLogOutNotification = @"UserDidLogoutNotification";
+NSString *const UserDidLogInNotification = @"UserDidLoginNotification";
+NSString *const UserDidLogOutNotification = @"UserDidLogoutNotification";
 
 @interface User()
 @end
 
-
 @implementation User (Twitter)
+
 
 +(User*) userWithTwitterInfo:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context
 {
     User *user = nil;
-    NSString* userId = dictionary[@"id_str"];
+    NSString *userId = dictionary[@"id_str"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
     request.predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
     NSError *error;
@@ -43,8 +43,7 @@ NSString * const UserDidLogOutNotification = @"UserDidLogoutNotification";
 }
 
 static User *_currentUser = nil;
-NSString * const currentUserKey = @"currentUserKey";
-
+NSString *const currentUserKey = @"currentUserKey";
 
 + (User *)currentUser {
     
@@ -66,11 +65,8 @@ NSString * const currentUserKey = @"currentUserKey";
     if(_currentUser != nil) {
         NSString *userId = _currentUser.userId;
         [[NSUserDefaults standardUserDefaults]setObject:userId forKey:currentUserKey];
-    } else {
-        [[NSUserDefaults standardUserDefaults]setObject:nil forKey:currentUserKey];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
 + (void)logout {

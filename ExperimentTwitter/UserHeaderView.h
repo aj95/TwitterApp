@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User+Twitter.h"
 
 @interface UserHeaderView : UIView
-@property (strong, nonatomic, nullable) IBOutlet UIImageView *profileImageView;
-@property (strong, nonatomic, nullable) IBOutlet UILabel *userNameLabel;
-@property (strong, nonatomic, nullable) IBOutlet UILabel *handleLabel;
+- (void) setHeaderViewForUser:(User*) user;
 @end

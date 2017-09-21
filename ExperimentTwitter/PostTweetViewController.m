@@ -10,7 +10,7 @@
 #import "TwitterClient.h"
 
 @interface PostTweetViewController ()
-@property (strong, nonatomic) Tweet* inReplyToTweet;
+@property (strong, nonatomic) Tweet *inReplyToTweet;
 @property (weak, nonatomic) IBOutlet UITextView *tweetText;
 @property (weak, nonatomic) IBOutlet UILabel *charactersLeftLabel;
 @end
@@ -44,7 +44,8 @@
         [[TwitterClient sharedInstance] postTweet:text];
     else  {
         text = [NSString stringWithFormat:@"@%@ %@", self.inReplyToTweet.user.screenName, text];
-        [[TwitterClient sharedInstance] replyToTweetWithId:self.inReplyToTweet.tweetId andTweetText:text];
+        [[TwitterClient sharedInstance] replyToTweetWithId:self.inReplyToTweet.tweetId
+                                              andTweetText:text];
     }
 }
 

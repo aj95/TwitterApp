@@ -15,53 +15,57 @@
 #import "TweetsSearchViewController.h"
 
 @interface UsersTableViewController ()
-@property (strong, nonatomic) NSString *cursor;
-@property (strong, nonatomic) UIRefreshControl* refreshControl;
+@property (strong, nonatomic) NSMutableArray *users;
+@property (nonatomic) NSString *cursor;
+@property (nonatomic) UIRefreshControl *refreshControl;
 @end
 
 @implementation UsersTableViewController
 
 @synthesize refreshControl;
 
+-(id) initWithUsers:(NSArray *)users {
+    self = [super init];
+    self.users = [NSMutableArray arrayWithArray:users];
+    return self;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.users count];
+    return self.users.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    CustomUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
-    if(!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"CustomUserCell" bundle:nil] forCellReuseIdentifier:@"userCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
-    }
-    User *user = [self.users objectAtIndex:indexPath.row];
-    cell.user = user;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+  CustomUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
+  User *user = self.users[indexPath.row];
+  cell.user = user;
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+- (void)tableView:(UITableView *)tableView
+  willDisplayCell:(UITableViewCell *)cell
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == [self.users count] - 5 && ![self.cursor isEqualToString:@"0"]) {
-        [[TwitterClient sharedInstance]usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-            if(!error) {
-                [self sortUsersListByFirstName:&users];
-                [self.users addObjectsFromArray:users];
-                [self setRelationshipOnUsers:users];
-                self.cursor = cursor;
-                [self.tableView reloadData];
-            }
-        }];
-    }
+  if(indexPath.row == (self.users.count - 5) && ![self.cursor isEqualToString:@"0"]) {
+    [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
+                                             completion:^(NSArray *users, NSString *cursor, NSError *error) {
+      if(error == nil) {
+        [self loadNewUsers:users];
+        self.cursor = cursor;
+        [self.tableView reloadData];
+      }
+    }];
+  }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    User* user = [self.users objectAtIndex:indexPath.row];
+    User *user = self.users[indexPath.row];
     UserTimelineViewController *viewController = [[UserTimelineViewController alloc] initWithUser:user];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -69,18 +73,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableView.tableFooterView = [UIView new];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 200;
+    [self.tableView registerNib:[UINib nibWithNibName:@"CustomUserCell" bundle:nil] forCellReuseIdentifier:@"userCell"];
     self.cursor = @"-1";
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
-    [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-        if(!error) {
-            self.users = [[NSMutableArray alloc]init];
-            [self sortUsersListByFirstName:&users];
-            [self.users addObjectsFromArray:users];
-            [self setRelationshipOnUsers:users];
-            self.cursor = cursor;
-            [self.tableView reloadData];
+    [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
+                                             completion:^(NSArray *users, NSString *cursor, NSError *error) {
+        if(error == nil) {
+          self.users = [[NSMutableArray alloc]init];
+          [self loadNewUsers:users];
+          self.cursor = cursor;
+          [self.tableView reloadData];
         }
     }];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
@@ -99,31 +103,30 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 
 -(IBAction)onSearchButtonPress {
     TweetsSearchViewController *viewController = [[TweetsSearchViewController alloc]init];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)refreshTable {
     self.cursor = @"-1";
-    [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]} completion:^(NSArray *users, NSString* cursor, NSError *error) {
-        if(!error) {
-            [self.users removeAllObjects];
-            [self sortUsersListByFirstName:&users];
-            [self.users addObjectsFromArray:users];
-            [self setRelationshipOnUsers:users];
-            self.cursor = cursor;
-            [self.refreshControl endRefreshing];
-            [self.tableView reloadData];
+    [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
+                                             completion:^(NSArray *users, NSString *cursor,NSError *error) {
+        if(error == nil) {
+          [self.users removeAllObjects];
+          [self loadNewUsers:users];
+          self.cursor = cursor;
         }
+        [self.refreshControl endRefreshing];
+        [self.tableView reloadData];
     }];
 }
 
--(NSString*) getEndPoint {
+-(NSString *)getEndPoint {
     return [NSString stringWithFormat:@"%@?cursor=%@",self.endPoint, self.cursor];
 }
 
@@ -131,9 +134,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     // Implemented in subclasses
 }
 
--(void)sortUsersListByFirstName:(NSArray**)users {
-    NSSortDescriptor * nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    *users = [NSMutableArray arrayWithArray:[*users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+-(NSArray*)sortUsersListByFirstName:(NSArray*)users {
+  NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+  users = [NSMutableArray arrayWithArray:[users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+  return users;
 }
+
+-(void) loadNewUsers:(NSArray*) users {
+  users = [self sortUsersListByFirstName:users];
+  [self.users addObjectsFromArray:users];
+  [self setRelationshipOnUsers:users];
+}
+
+
 
 @end

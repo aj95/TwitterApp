@@ -11,20 +11,23 @@
 #import "CoreDataHelper.h"
 @implementation FollowingViewController
 
+- (id)init {
+    User *currentUser = User.currentUser;
+    NSMutableArray *users = [NSMutableArray arrayWithArray:[currentUser.following allObjects]];
+    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    users = [NSMutableArray arrayWithArray:[users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+    self = [super initWithUsers:users];
+    NSLog(@"Fetched %ld following from coredata",users.count);
+    return self;
+}
 - (void)viewDidLoad {
     self.endPoint = @"1.1/friends/list.json";
     self.navigationItem.title = @"Following";
-    User *currentUser = [User currentUser];
-    self.users = [NSMutableArray arrayWithArray:[currentUser.following allObjects]];
-    NSSortDescriptor * nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    self.users = [NSMutableArray arrayWithArray:[self.users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
-    NSLog(@"Fetched %ld following from coredata",[self.users count]);
-    [self.tableView reloadData];
     [super viewDidLoad];
 }
 
 - (void)setRelationshipOnUsers:(NSArray *)users {
-    [[User currentUser] addFollowing:[NSSet setWithArray:users]];
+    [User.currentUser addFollowing:[NSSet setWithArray:users]];
 }
 
 @end

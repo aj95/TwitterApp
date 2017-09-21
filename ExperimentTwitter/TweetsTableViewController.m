@@ -14,11 +14,18 @@
 #import "TweetsSearchViewController.h"
 
 @interface TweetsTableViewController ()
-@property (strong, nonatomic) UIRefreshControl* refreshControl;
+@property (strong, nonatomic) NSMutableArray *tweets;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL loadMoreData;
 @end
 
 @implementation TweetsTableViewController
+
+- (id) initWithTweets:(NSArray *)tweets {
+    self = [super init];
+    self.tweets = [NSMutableArray arrayWithArray:tweets];
+    return self;
+}
 
 @synthesize refreshControl;
 
@@ -27,14 +34,11 @@
     return [self.tweets count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     CustomTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
-    if(!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"CustomTweetCell" bundle:nil] forCellReuseIdentifier:@"tweetCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
-    }
-    Tweet *tweet = [self.tweets objectAtIndex:indexPath.row];
+    Tweet *tweet = self.tweets[indexPath.row];
     cell.tweet = tweet;
     cell.replyButton.tag = indexPath.row;
     [cell.replyButton addTarget:self action:@selector(onReplyButtonPress:) forControlEvents:UIControlEventTouchUpInside];
@@ -43,12 +47,14 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+- (void)tableView:(UITableView *)tableView
+  willDisplayCell:(UITableViewCell *)cell
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == [self.tweets count] - 5 && self.loadMoreData) {
-        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}  completion:^(NSArray *tweets, NSError *error) {
-            if(!error) {
+    if(indexPath.row == (self.tweets.count - 5) && self.loadMoreData) {
+        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}
+                                             completion:^(NSArray *tweets, NSError *error) {
+            if(error == nil) {
                 if([tweets count] > 0) {
                     [self sortTweetsListByCreatedAt:&tweets];
                     [self.tweets addObjectsFromArray:tweets];
@@ -63,8 +69,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void) fetchMoreTweets {
-    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}  completion:^(NSArray *tweets, NSError *error) {
-        if(!error) {
+    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:[self getMaxIdParameterFromLastTweet]]}
+                                         completion:^(NSArray *tweets, NSError *error) {
+        if(error == nil) {
             if([tweets count] > 0) {
                 [self sortTweetsListByCreatedAt:&tweets];
                 [self.tweets addObjectsFromArray:tweets];
@@ -83,12 +90,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 333;
     self.loadMoreData = YES;
+    [self.tableView registerNib:[UINib nibWithNibName:@"CustomTweetCell" bundle:nil] forCellReuseIdentifier:@"tweetCell"];
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
-    if([self getEndPointWithMaxIdParameter:nil]) {
-        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]} completion:^(NSArray *tweets, NSError *error) {
-            if(!error) {
+    if([self getEndPointWithMaxIdParameter:nil] != nil) {
+        [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]}
+                                             completion:^(NSArray *tweets, NSError *error) {
+            if(error == nil) {
                 self.tweets = [[NSMutableArray alloc]init];
                 if([tweets count] > 0) {
                     [self sortTweetsListByCreatedAt:&tweets];
@@ -118,22 +127,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 -(IBAction)onSearchButtonPress {
     TweetsSearchViewController *viewController = [[TweetsSearchViewController alloc]init];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 -(IBAction)onReplyButtonPress:(UIButton*)sender {
-    PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:[self.tweets objectAtIndex:sender.tag]];
-    [[self navigationController] pushViewController:viewController animated:YES];
+    PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:self.tweets[sender.tag]];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)refreshTable {
-    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]} completion:^(NSArray *tweets, NSError *error) {
-         if(!error) {
+    [[TwitterClient sharedInstance]tweetsWithParams:@{@"endPoint":[self getEndPointWithMaxIdParameter:nil]}
+                                         completion:^(NSArray *tweets, NSError *error) {
+         if(error == nil) {
              [self.tweets removeAllObjects];
              [self sortTweetsListByCreatedAt:&tweets];
              [self.tweets addObjectsFromArray:tweets];
@@ -156,7 +166,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 -(void)sortTweetsListByCreatedAt:(NSArray**)tweets {
-    NSSortDescriptor * createdAtSortDescriptor;
+    NSSortDescriptor *createdAtSortDescriptor;
     createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     *tweets = [NSMutableArray arrayWithArray:[*tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
 }

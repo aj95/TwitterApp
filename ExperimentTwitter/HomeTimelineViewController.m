@@ -11,29 +11,27 @@
 
 @implementation HomeTimelineViewController
 
-NSString * const twitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
+NSString *const twitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
 
-- (void)viewDidLoad {
-    self.navigationItem.title = @"Home";
-    [self loadTweetsFromCoreData];
-    [super viewDidLoad];
-}
-
-
-- (void) loadTweetsFromCoreData {
-    User* currentUser = [User currentUser];
+-(id)init {
+    User *currentUser = User.currentUser;
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user.userId in %@.userId",currentUser.following]];
-    NSSortDescriptor * createdAtSortDescriptor;
+    NSSortDescriptor *createdAtSortDescriptor;
     createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
-                                                        ascending:NO];
+                                                          ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
-    self.tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    NSLog(@"Fetched %ld tweets for home timeline", [self.tweets count]);
-    [self.tableView reloadData];
+    NSMutableArray *tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self = [super initWithTweets:tweets];
+    NSLog(@"Fetched %ld tweets for home timeline", tweets.count);
+    return self;
 }
 
+- (void)viewDidLoad {
+    self.navigationItem.title = @"Home";
+    [super viewDidLoad];
+}
 
 -(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
     if(maxId) {

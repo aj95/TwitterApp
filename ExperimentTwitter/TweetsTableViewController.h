@@ -10,5 +10,5 @@
 #import "User+Twitter.h"
 
 @interface TweetsTableViewController : UITableViewController
-@property (strong, nonatomic) NSMutableArray* tweets;
+- (id)initWithTweets:(NSArray*)tweets;
 @end

@@ -14,10 +14,10 @@
 #import "FollowingViewController.h"
 
 @interface TabBarViewController ()
-@property(strong, nonatomic) UINavigationController * HomeNavigationController;
-@property(strong, nonatomic) UINavigationController * FollowersNavigationController;
-@property(strong, nonatomic) UINavigationController * FollowingNavigationController;
-@property(strong, nonatomic) UINavigationController * ProfileNavigationController;
+@property(strong, nonatomic) UINavigationController *HomeNavigationController;
+@property(strong, nonatomic) UINavigationController *FollowersNavigationController;
+@property(strong, nonatomic) UINavigationController *FollowingNavigationController;
+@property(strong, nonatomic) UINavigationController *ProfileNavigationController;
 @end
 
 @implementation TabBarViewController

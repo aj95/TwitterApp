@@ -68,7 +68,7 @@
                 <constraint firstItem="xIy-Gm-TBt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="unA-jJ-nNt"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-156.5" y="-162"/>
+            <point key="canvasLocation" x="-493" y="-232"/>
         </view>
     </objects>
 </document>

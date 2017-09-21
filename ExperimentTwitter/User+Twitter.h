@@ -8,12 +8,12 @@
 
 #import "User+CoreDataClass.h"
 
-extern NSString * const UserDidLogInNotification;
-extern NSString * const UserDidLogOutNotification;
+extern NSString *const UserDidLogInNotification;
+extern NSString *const UserDidLogOutNotification;
 
 @interface User (Twitter)
-+ (User*) userWithTwitterInfo:(NSDictionary*) dictionary inManagedObjectContext:(NSManagedObjectContext*) context;
-+(User *)currentUser;
-+(void)setCurrentUser:currentUser;
++ (User*)userWithTwitterInfo:(NSDictionary*)dictionary
+      inManagedObjectContext:(NSManagedObjectContext*) context;
+@property(strong, nonatomic, class)User *currentUser;
 +(void)logout;
 @end

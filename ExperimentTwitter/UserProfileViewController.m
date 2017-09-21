@@ -20,29 +20,18 @@
 
 @implementation UserProfileViewController
 
--(id) init {
-    self = [super initWithUser:[User currentUser]];
+- (id)init {
+    self = [super initWithUser:User.currentUser];
     return self;
 }
 
 - (void)viewDidLoad {
-    self.userHeaderView = [[UserHeaderView alloc] initWithFrame: CGRectMake(0, self.navigationController.navigationBar.frame.size.height + 20, self.navigationController.navigationBar.frame.size.width, 0)];
+    self.userHeaderView = [[UserHeaderView alloc] initWithFrame: CGRectMake(0, self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, 100)];
     [self.navigationController.view addSubview:self.userHeaderView];
     [self.tableView setContentInset:UIEdgeInsetsMake(108, 0, 0, 0)];
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(108, 0.0f, 0.0f, 0.0f);
-    [self updateUI];
+    [self.userHeaderView setHeaderViewForUser:User.currentUser];
     [super viewDidLoad];
-}
-
-- (void) updateUI {
-    User *currentUser = [User currentUser];
-    self.userHeaderView.handleLabel.text = [NSString stringWithFormat: @"@%@", currentUser.screenName];
-    self.userHeaderView.userNameLabel.text = currentUser.name;
-    self.userHeaderView.userNameLabel.font = [UIFont boldSystemFontOfSize:20];
-    self.userHeaderView.handleLabel.font = [UIFont systemFontOfSize:15];
-    [self.userHeaderView.profileImageView sd_setImageWithURL:[NSURL URLWithString:currentUser.profileImageUrl]];
-    self.userHeaderView.profileImageView.layer.cornerRadius = self.userHeaderView.profileImageView.frame.size.height/2;
-    self.userHeaderView.profileImageView.clipsToBounds = YES;
 }
 
 @end

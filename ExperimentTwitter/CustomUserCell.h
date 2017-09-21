@@ -11,6 +11,6 @@
 
 @interface CustomUserCell : UITableViewCell
 
-@property (strong, nonatomic, nullable) User* user;
+@property (strong, nonatomic, nullable) User *user;
 
 @end

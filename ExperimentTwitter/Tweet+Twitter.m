@@ -16,7 +16,7 @@
 + (Tweet*) tweetWithTwitterInfo:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context
 {
     Tweet *tweet = nil;
-    NSString* tweetId = dictionary[@"id_str"];
+    NSString *tweetId = dictionary[@"id_str"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tweet"];
     request.predicate = [NSPredicate predicateWithFormat:@"tweetId = %@", tweetId];
     NSError *error;

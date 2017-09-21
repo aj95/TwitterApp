@@ -11,7 +11,7 @@
 
 @interface CustomTweetCell : UITableViewCell
 
-@property (strong, nonatomic, nullable) Tweet* tweet;
+@property (strong, nonatomic, nullable) Tweet *tweet;
 @property (weak, nonatomic, nullable) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic, nullable) IBOutlet UIButton *retweetButton;
 @property (weak, nonatomic, nullable) IBOutlet UIButton *replyButton;
