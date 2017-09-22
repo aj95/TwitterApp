@@ -13,7 +13,8 @@
 #import "Tweet+Twitter.h"
 #import "TweetsSearchViewController.h"
 
-@interface TweetsTableViewController ()
+@interface TweetsTableViewController ()<CustomTweetCellDelegate>
+
 @property (strong, nonatomic, readonly) NSMutableArray *tweets;
 @property (nonatomic) BOOL loadMoreData;
 @end
@@ -43,9 +44,7 @@
     CustomTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
     Tweet *tweet = self.tweets[indexPath.row];
     cell.tweet = tweet;
-    cell.replyButton.tag = indexPath.row;
-    [cell.replyButton addTarget:self action:@selector(onReplyButtonPress:)
-               forControlEvents:UIControlEventTouchUpInside];
+    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -135,8 +134,35 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (IBAction)onReplyButtonPress:(UIButton*)sender {
-    PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:self.tweets[sender.tag]];
+
+- (void)customTweetCell:(CustomTweetCell *)customTweetCell
+pressedFavoriteButtonWithSelectionState:(BOOL)isSelected {
+    if(isSelected) {
+        [customTweetCell changeFavoriteButtonImageForUnlikedTweet];
+        [customTweetCell changeFavoriteCountForUnLikedTweet];
+        [[TwitterClient sharedInstance] unlikeTweetWithId : customTweetCell.tweet.tweetId];
+    } else {
+        [customTweetCell changeFavoriteButtonImageForLikedTweet];
+        [customTweetCell changeFavoriteCountForLikedTweet];
+        [[TwitterClient sharedInstance] likeTweetWithId : customTweetCell.tweet.tweetId];
+    }
+}
+
+- (void)customTweetCell:(CustomTweetCell *)customTweetCell
+pressedRetweetButtonWithSelectionState:(BOOL)isSelected {
+    if(isSelected) {
+        [customTweetCell changeRetweetButtonImageForUnRetweetedTweet];
+        [customTweetCell changeRetweetCountForForUnRetweetedTweet];
+        [[TwitterClient sharedInstance] untweetTweetWithId : customTweetCell.tweet.tweetId];
+    } else {
+        [customTweetCell changeRetweetButtonImageForRetweetedTweet];
+        [customTweetCell changeRetweetCountForRetweetedTweet];
+        [[TwitterClient sharedInstance] retweetTweetWithId : customTweetCell.tweet.tweetId];
+    }
+}
+
+- (void)customTweetCellPressedReplyButton:(CustomTweetCell *)customTweetCell {
+    PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:customTweetCell.tweet];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

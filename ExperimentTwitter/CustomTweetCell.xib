@@ -112,6 +112,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGQ-fr-Eok">
                                         <rect key="frame" x="143" y="0.0" width="15" height="22"/>
                                         <state key="normal" image="icon-reply"/>
+                                        <connections>
+                                            <action selector="onPressingReplyButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1cu-QR-sO4"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -140,7 +143,7 @@
                 <outlet property="tweetTextLabel" destination="1Go-0A-5LT" id="4ik-wD-LPL"/>
                 <outlet property="userNameLabel" destination="7Rg-zD-D0r" id="V5v-bQ-1dC"/>
             </connections>
-            <point key="canvasLocation" x="-1203" y="-10"/>
+            <point key="canvasLocation" x="-1317" y="-82"/>
         </tableViewCell>
     </objects>
     <resources>

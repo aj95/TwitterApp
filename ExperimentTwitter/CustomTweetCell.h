@@ -16,9 +16,15 @@
 @property (nonatomic, weak) id<CustomTweetCellDelegate> delegate;
 
 @property (strong, nonatomic) Tweet *tweet;
-@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
-@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
-@property (weak, nonatomic) IBOutlet UIButton *replyButton;
+
+- (void)changeFavoriteButtonImageForLikedTweet;
+- (void)changeFavoriteButtonImageForUnlikedTweet;
+- (void)changeFavoriteCountForLikedTweet;
+- (void)changeFavoriteCountForUnLikedTweet;
+- (void)changeRetweetButtonImageForRetweetedTweet;
+- (void)changeRetweetButtonImageForUnRetweetedTweet;
+- (void)changeRetweetCountForRetweetedTweet;
+- (void)changeRetweetCountForForUnRetweetedTweet;
 @end
 
 @protocol CustomTweetCellDelegate <NSObject>
@@ -27,7 +33,6 @@
 pressedFavoriteButtonWithSelectionState:(BOOL)isSelected;
 - (void)customTweetCell:(CustomTweetCell *)customTweetCell
 pressedRetweetButtonWithSelectionState:(BOOL)isSelected;
-- (void)customTweetCell:(CustomTweetCell *)customTweetCell
-pressedReplyButtonWithSelectionState:(BOOL)isSelected;
+- (void)customTweetCellPressedReplyButton:(CustomTweetCell *)customTweetCell;
 
 @end

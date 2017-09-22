@@ -22,6 +22,9 @@
 @property (weak, nonatomic, nullable) IBOutlet UIImageView *tweetImageView;
 @property (weak, nonatomic, nullable) IBOutlet UILabel *favouriteCountLabel;
 @property (weak, nonatomic, nullable) IBOutlet UILabel *retweetCountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic) IBOutlet UIButton *replyButton;
 @end
 
 @implementation CustomTweetCell
@@ -55,32 +58,49 @@
         [self.delegate      customTweetCell:self
     pressedFavoriteButtonWithSelectionState:favoriteButton.isSelected];
     }
-    
-    if ([sender isSelected]) {
-        [sender setImage:[UIImage imageNamed:@"icon-heart"] forState:UIControlStateNormal];
-        [sender setSelected:NO];
-        _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] - 1];
-        [[TwitterClient sharedInstance] unlikeTweetWithId : _tweet.tweetId];
-    } else {
-        [sender setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateSelected];
-        [sender setSelected:YES];
-        _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
-        [[TwitterClient sharedInstance] likeTweetWithId : _tweet.tweetId];
-    }
 }
 
 - (IBAction)onPressingRetweetButton:(id)sender {
-    if ([sender isSelected]) {
-        [sender setImage:[UIImage imageNamed:@"icon-retweet"] forState:UIControlStateNormal];
-        [sender setSelected:NO];
-        _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] - 1];
-        [[TwitterClient sharedInstance] untweetTweetWithId : _tweet.tweetId];
-    } else {
-        [sender setImage:[UIImage imageNamed:@"icon-retweet-selected"] forState:UIControlStateSelected];
-        [sender setSelected:YES];
-        _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] + 1];
-        [[TwitterClient sharedInstance] retweetTweetWithId : _tweet.tweetId];
+    if ([sender isKindOfClass:[UIButton class]]) {
+        UIButton *retweetButton = (UIButton *)sender;
+        [self.delegate      customTweetCell:self
+    pressedRetweetButtonWithSelectionState:retweetButton.isSelected];
     }
+}
+
+- (IBAction)onPressingReplyButton:(id)sender {
+    if ([sender isKindOfClass:[UIButton class]]) {
+        [self.delegate customTweetCellPressedReplyButton:self];
+    }
+}
+
+- (void)changeFavoriteButtonImageForLikedTweet {
+    [self.favoriteButton setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateNormal];
+    self.favoriteButton.selected = YES;
+}
+- (void)changeFavoriteButtonImageForUnlikedTweet {
+    [self.favoriteButton setImage:[UIImage imageNamed:@"icon-heart"] forState:UIControlStateNormal];
+    self.favoriteButton.selected = NO;
+}
+- (void)changeFavoriteCountForLikedTweet {
+    _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] + 1];
+}
+- (void)changeFavoriteCountForUnLikedTweet {
+    _favouriteCountLabel.text = [NSString stringWithFormat:@"%ld",[_favouriteCountLabel.text integerValue] - 1];
+}
+- (void)changeRetweetButtonImageForRetweetedTweet {
+    [self.retweetButton setImage:[UIImage imageNamed:@"icon-retweet-selected"] forState:UIControlStateSelected];
+    self.retweetButton.selected = YES;
+}
+- (void)changeRetweetButtonImageForUnRetweetedTweet {
+    [self.retweetButton setImage:[UIImage imageNamed:@"icon-retweet"] forState:UIControlStateSelected];
+    self.retweetButton.selected = YES;
+}
+- (void)changeRetweetCountForRetweetedTweet {
+    _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] + 1];
+}
+- (void)changeRetweetCountForForUnRetweetedTweet {
+    _retweetCountLabel.text = [NSString stringWithFormat:@"%ld",[_retweetCountLabel.text integerValue] - 1];
 }
 
 @end

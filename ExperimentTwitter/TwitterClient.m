@@ -95,7 +95,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
     NSString *endPoint = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json",tweetId];
     [self POST:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {;
     } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"Successfully retweetes");
+        NSLog(@"Successfully retweeted");
     } failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
         NSLog(@"Failed to retweet");
     }];
