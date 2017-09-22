@@ -23,11 +23,7 @@ NSString *const twitterUserTimelineKey = @"1.1/statuses/user_timeline.json";
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user.screenName = %@", user.screenName]];
-    NSSortDescriptor *createdAtSortDescriptor;
-    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
-                                                          ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
-    NSMutableArray *tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    NSArray *tweets = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
     self = [super initWithTweets:tweets];
     self.userScreenName = user.screenName;
     NSLog(@"Loaded %ld tweets for %@ from coreData", tweets.count, self.userScreenName);
@@ -41,7 +37,7 @@ NSString *const twitterUserTimelineKey = @"1.1/statuses/user_timeline.json";
 }
 
 -(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
-    if(maxId) {
+    if (maxId) {
         return [NSString stringWithFormat:@"%@?screen_name=%@&max_id=%@", twitterUserTimelineKey, self.userScreenName, maxId];
     }
     return [NSString stringWithFormat:@"%@?screen_name=%@", twitterUserTimelineKey, self.userScreenName];;

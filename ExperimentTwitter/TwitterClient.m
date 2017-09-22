@@ -26,7 +26,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
     static TwitterClient *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if(instance == nil) {
+        if (instance == nil) {
             instance = [[TwitterClient alloc] initWithBaseURL:[NSURL URLWithString:twitterBaseURL]
                                                   consumerKey:twitterConsumerKey
                                                consumerSecret:twitterConsumerSecret];
@@ -111,7 +111,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
-- (void)replyToTweetWithId:(NSString*)tweetId andTweetText:(NSString*)tweetText {
+- (void)replyToTweetWithId:(NSString*)tweetId tweetText:(NSString*)tweetText {
     NSString *endPoint = [[NSString stringWithFormat:@"1.1/statuses/update.json?status=%@&in_reply_to_status_id=%@",tweetText, tweetId] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     [self POST:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {
@@ -153,7 +153,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
 - (void)tweetsWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users,NSError *error))completion {
     NSString *endPoint = params[@"endPoint"];
     NSLog(@"%@", endPoint);
-    if(endPoint) {
+    if (endPoint) {
         [self GET:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {
             NSLog(@"Downloading tweets");
         } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {

@@ -24,7 +24,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogOutNotification object:nil];
     User *user = User.currentUser;
-    if(user != nil) {
+    if (user != nil) {
        // NSLog(@"%@", user);
         NSLog(@"Welcome %@ !", user.name);
         self.window.rootViewController = [[TabBarViewController alloc]init];

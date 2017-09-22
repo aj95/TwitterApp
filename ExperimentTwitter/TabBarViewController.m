@@ -13,13 +13,6 @@
 #import "PostTweetViewController.h"
 #import "FollowingViewController.h"
 
-@interface TabBarViewController ()
-@property(strong, nonatomic) UINavigationController *HomeNavigationController;
-@property(strong, nonatomic) UINavigationController *FollowersNavigationController;
-@property(strong, nonatomic) UINavigationController *FollowingNavigationController;
-@property(strong, nonatomic) UINavigationController *ProfileNavigationController;
-@end
-
 @implementation TabBarViewController
 
 - (void)viewDidLoad {
@@ -29,14 +22,14 @@
     UIViewController *followersTab = [[FollowersViewController alloc] init];
     UIViewController *profileTab = [[UserProfileViewController alloc] init];
     NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
-    self.HomeNavigationController = [[UINavigationController alloc] initWithRootViewController: homeTimelineTab];
-    self.FollowingNavigationController = [[UINavigationController alloc] initWithRootViewController: followingTab];
-    self.FollowersNavigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
-    self.ProfileNavigationController = [[UINavigationController alloc] initWithRootViewController: profileTab];
-    [tabViewControllers addObject:self.HomeNavigationController];
-    [tabViewControllers addObject:self.FollowingNavigationController];
-    [tabViewControllers addObject:self.FollowersNavigationController];
-    [tabViewControllers addObject:self.ProfileNavigationController];
+    UINavigationController *homeNavigationController = [[UINavigationController alloc] initWithRootViewController: homeTimelineTab];
+    UINavigationController *followingNavigationController = [[UINavigationController alloc] initWithRootViewController: followingTab];
+    UINavigationController *followersNavigationController = [[UINavigationController alloc] initWithRootViewController: followersTab];
+    UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController: profileTab];
+    [tabViewControllers addObject:homeNavigationController];
+    [tabViewControllers addObject:followingNavigationController];
+    [tabViewControllers addObject:followersNavigationController];
+    [tabViewControllers addObject:profileNavigationController];
     [self setViewControllers:tabViewControllers];
     homeTimelineTab.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image: [UIImage imageNamed:@"HomeButton"] tag:1];
     followingTab.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Following" image: [UIImage imageNamed:@"FollowingButton"] tag:2];

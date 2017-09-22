@@ -11,18 +11,14 @@
 
 @implementation HomeTimelineViewController
 
-NSString *const twitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
+NSString *const TwitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
 
 -(id)init {
     User *currentUser = User.currentUser;
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user.userId in %@.userId",currentUser.following]];
-    NSSortDescriptor *createdAtSortDescriptor;
-    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
-                                                          ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
-    NSMutableArray *tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user.userId in %@.userId", currentUser.following]];
+    NSArray *tweets = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
     self = [super initWithTweets:tweets];
     NSLog(@"Fetched %ld tweets for home timeline", tweets.count);
     return self;
@@ -33,14 +29,8 @@ NSString *const twitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
     [super viewDidLoad];
 }
 
--(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
-    if(maxId) {
-        return [NSString stringWithFormat:@"%@?max_id=%@", twitterHomeTimelineKey, maxId];
-    }
-    else {
-        return twitterHomeTimelineKey;
-    }
+- (NSString*)getEndPointWithMaxIdParameter:(NSString*)maxId {
+    return (maxId != nil) ? [NSString stringWithFormat:@"%@?max_id=%@", TwitterHomeTimelineKey, maxId] : TwitterHomeTimelineKey;
 }
-
 
 @end

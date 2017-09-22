@@ -20,10 +20,11 @@
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if(self) {
+    if (self) {
         NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"UserHeaderView" owner:self options:nil];
         UIView *mainView = subviewArray[0];
         [self addSubview:mainView];
+        [self setFrame:frame];
     }
     return self;
 }

@@ -14,8 +14,8 @@
 
 - (IBAction)onLogin:(id)sender {
    [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
-       if(user!=nil) {
-           NSLog(@"Welcome %@", user.name);
+       if (user != nil) {
+           NSLog(@"%@ logged in", user.name);
            [self presentViewController:[[TabBarViewController alloc] init] animated:NO completion:nil];
        } else {
            NSLog(@"Failed to login");

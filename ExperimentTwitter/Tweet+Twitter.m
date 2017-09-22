@@ -21,9 +21,9 @@
     request.predicate = [NSPredicate predicateWithFormat:@"tweetId = %@", tweetId];
     NSError *error;
     NSArray *matches = [context executeFetchRequest:request error:&error];
-    if(!matches || error || [matches count] > 1) {
+    if (!matches || error || [matches count] > 1) {
         //
-    } else if([matches count]) {
+    } else if ([matches count]) {
         tweet = [matches firstObject];
     } else {
         tweet = [NSEntityDescription insertNewObjectForEntityForName:@"Tweet" inManagedObjectContext:context];

@@ -9,11 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "Tweet+Twitter.h"
 
+@protocol CustomTweetCellDelegate;
+
 @interface CustomTweetCell : UITableViewCell
 
-@property (strong, nonatomic, nullable) Tweet *tweet;
-@property (weak, nonatomic, nullable) IBOutlet UIButton *favoriteButton;
-@property (weak, nonatomic, nullable) IBOutlet UIButton *retweetButton;
-@property (weak, nonatomic, nullable) IBOutlet UIButton *replyButton;
+@property (nonatomic, weak) id<CustomTweetCellDelegate> delegate;
+
+@property (strong, nonatomic) Tweet *tweet;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic) IBOutlet UIButton *replyButton;
+@end
+
+@protocol CustomTweetCellDelegate <NSObject>
+
+- (void)customTweetCell:(CustomTweetCell *)customTweetCell
+pressedFavoriteButtonWithSelectionState:(BOOL)isSelected;
+- (void)customTweetCell:(CustomTweetCell *)customTweetCell
+pressedRetweetButtonWithSelectionState:(BOOL)isSelected;
+- (void)customTweetCell:(CustomTweetCell *)customTweetCell
+pressedReplyButtonWithSelectionState:(BOOL)isSelected;
 
 @end

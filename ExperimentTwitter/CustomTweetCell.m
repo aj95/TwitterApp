@@ -40,26 +40,22 @@
     self.handleLabel.text = [NSString stringWithFormat: @"@%@", _tweet.user.screenName];
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.user.profileImageUrl]];
     [self.tweetImageView sd_setImageWithURL:[NSURL URLWithString:_tweet.mediaUrl]];
-    NSTimeInterval timeSinceCreated = [[NSDate date] timeIntervalSinceDate:_tweet.createdAt];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    if(timeSinceCreated > 86400)
-        dateFormatter.dateStyle = NSFormattingUnitStyleShort;
-    else
-        dateFormatter.timeStyle = NSFormattingUnitStyleShort;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSFormattingUnitStyleShort;
     self.createdAtLabel.text = [dateFormatter stringFromDate:_tweet.createdAt];
     self.favouriteCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.favouriteCount];
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%lld",_tweet.retweetedCount];
-    if(_tweet.isFavourited) {
-        //[self.favoriteButton setImage:[UIImage imageNamed:@"icon-heart-selected"] forState:UIControlStateSelected];
-        [self.favoriteButton setSelected:YES];
-    }
-    if(_tweet.isRetweeted) {
-        //[self.retweetButton setImage:[UIImage imageNamed:@"icon-retweet-selected"] forState:UIControlStateSelected];
-        [self.retweetButton setSelected:YES];
-    }
+    self.favoriteButton.selected = _tweet.isFavourited;
+    self.retweetButton.selected = _tweet.isRetweeted;
 }
 
 - (IBAction)onPressingFavouriteButton:(id)sender {
+    if ([sender isKindOfClass:[UIButton class]]) {
+        UIButton *favoriteButton = (UIButton *)sender;
+        [self.delegate      customTweetCell:self
+    pressedFavoriteButtonWithSelectionState:favoriteButton.isSelected];
+    }
+    
     if ([sender isSelected]) {
         [sender setImage:[UIImage imageNamed:@"icon-heart"] forState:UIControlStateNormal];
         [sender setSelected:NO];

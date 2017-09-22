@@ -15,18 +15,22 @@
 #import "TweetsSearchViewController.h"
 
 @interface UsersTableViewController ()
-@property (strong, nonatomic) NSMutableArray *users;
+@property (strong, nonatomic, readonly) NSMutableArray *users;
 @property (nonatomic) NSString *cursor;
-@property (nonatomic) UIRefreshControl *refreshControl;
 @end
 
 @implementation UsersTableViewController
 
-@synthesize refreshControl;
-
 -(id) initWithUsers:(NSArray *)users {
     self = [super init];
-    self.users = [NSMutableArray arrayWithArray:users];
+    if(self) {
+        if(users == nil) {
+            _users = [NSMutableArray array];
+        } else {
+            NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            _users = [[users sortedArrayUsingDescriptors:@[nameSortDescriptor]] mutableCopy];
+        }
+    }
     return self;
 }
 
@@ -49,13 +53,15 @@
   willDisplayCell:(UITableViewCell *)cell
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  if(indexPath.row == (self.users.count - 5) && ![self.cursor isEqualToString:@"0"]) {
+  if (indexPath.row == (self.users.count - 5) && ![self.cursor isEqualToString:@"0"]) {
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
                                              completion:^(NSArray *users, NSString *cursor, NSError *error) {
-      if(error == nil) {
+      if (error == nil) {
         [self loadNewUsers:users];
         self.cursor = cursor;
         [self.tableView reloadData];
+      } else {
+          NSLog(@"Unable to load more users!");
       }
     }];
   }
@@ -80,11 +86,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
                                              completion:^(NSArray *users, NSString *cursor, NSError *error) {
-        if(error == nil) {
-          self.users = [[NSMutableArray alloc]init];
-          [self loadNewUsers:users];
-          self.cursor = cursor;
-          [self.tableView reloadData];
+        if (error == nil) {
+            [self.users removeAllObjects];
+            [self loadNewUsers:users];
+            self.cursor = cursor;
+            [self.tableView reloadData];
         }
     }];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc]
@@ -116,7 +122,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.cursor = @"-1";
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
                                              completion:^(NSArray *users, NSString *cursor,NSError *error) {
-        if(error == nil) {
+        if (error == nil) {
           [self.users removeAllObjects];
           [self loadNewUsers:users];
           self.cursor = cursor;
@@ -140,12 +146,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
   return users;
 }
 
--(void) loadNewUsers:(NSArray*) users {
+-(void) loadNewUsers:(NSArray*)users {
   users = [self sortUsersListByFirstName:users];
   [self.users addObjectsFromArray:users];
   [self setRelationshipOnUsers:users];
 }
-
-
 
 @end

@@ -13,9 +13,7 @@
 
 - (id)init {
     User *currentUser = User.currentUser;
-    NSMutableArray *users = [NSMutableArray arrayWithArray:[currentUser.following allObjects]];
-    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    users = [NSMutableArray arrayWithArray:[users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
+    NSMutableArray *users = [[currentUser.following allObjects] mutableCopy];
     self = [super initWithUsers:users];
     NSLog(@"Fetched %ld following from coredata",users.count);
     return self;

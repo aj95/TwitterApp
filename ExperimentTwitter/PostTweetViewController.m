@@ -10,9 +10,9 @@
 #import "TwitterClient.h"
 
 @interface PostTweetViewController ()
-@property (strong, nonatomic) Tweet *inReplyToTweet;
-@property (weak, nonatomic) IBOutlet UITextView *tweetText;
-@property (weak, nonatomic) IBOutlet UILabel *charactersLeftLabel;
+@property (nonatomic) Tweet *inReplyToTweet;
+@property (nonatomic, weak) IBOutlet UITextView *tweetText;
+@property (nonatomic, weak) IBOutlet UILabel *charactersLeftLabel;
 @end
 
 @implementation PostTweetViewController
@@ -32,7 +32,7 @@
     self.tweetText.layer.cornerRadius = 8;
     self.tweetButton.layer.cornerRadius = 8;
     [self.tweetText scrollRangeToVisible:NSMakeRange(0, 1)];
-    if(self.inReplyToTweet != nil)
+    if (self.inReplyToTweet != nil)
         [self.tweetButton setTitle:@"Reply" forState:UIControlStateNormal];
     else
         [self.tweetButton setTitle:@"Tweet" forState:UIControlStateNormal];
@@ -40,19 +40,19 @@
 
 - (IBAction)onTweetPress:(id)sender {
     NSString *text = _tweetText.text;
-    if(self.inReplyToTweet == nil)
+    if (self.inReplyToTweet == nil)
         [[TwitterClient sharedInstance] postTweet:text];
     else  {
         text = [NSString stringWithFormat:@"@%@ %@", self.inReplyToTweet.user.screenName, text];
         [[TwitterClient sharedInstance] replyToTweetWithId:self.inReplyToTweet.tweetId
-                                              andTweetText:text];
+                                                 tweetText:text];
     }
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     unsigned long len = textView.text.length + (text.length - range.length);
-    if(len <= 140) {
+    if (len <= 140) {
         self.charactersLeftLabel.text = [NSString stringWithFormat:@"%lu characters left", (140-len)];
         return YES;
     }

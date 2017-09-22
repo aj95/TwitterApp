@@ -24,5 +24,5 @@
 - (void)tweetsWithParams:(NSDictionary*)params
               completion:(void (^)(NSArray *users,NSError *error))completion;
 - (void)replyToTweetWithId:(NSString*)tweetId
-              andTweetText:(NSString*)tweetText;
+              tweetText:(NSString*)tweetText;
 @end

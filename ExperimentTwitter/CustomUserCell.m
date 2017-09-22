@@ -23,9 +23,9 @@
 }
 
 - (void) updateUI {
-    self.handleLabel.text = [NSString stringWithFormat: @"@%@", self.user.screenName];
-    self.userNameLabel.text = self.user.name;
-    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
+    self.handleLabel.text = [NSString stringWithFormat: @"@%@", _user.screenName];
+    self.userNameLabel.text = _user.name;
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:_user.profileImageUrl]];
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
     self.profileImageView.clipsToBounds = YES;
 }

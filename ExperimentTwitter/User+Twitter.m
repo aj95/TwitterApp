@@ -27,9 +27,9 @@ NSString *const UserDidLogOutNotification = @"UserDidLogoutNotification";
     request.predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
     NSError *error;
     NSArray *matches = [context executeFetchRequest:request error:&error];
-    if(!matches || error || [matches count] > 1) {
+    if (!matches || error || [matches count] > 1) {
        //
-    } else if([matches count]) {
+    } else if ([matches count]) {
         user = [matches firstObject];
     } else {
         user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
@@ -47,9 +47,9 @@ NSString *const currentUserKey = @"currentUserKey";
 
 + (User *)currentUser {
     
-    if(_currentUser == nil) {
+    if (_currentUser == nil) {
         NSString *loggedInUserId = [[NSUserDefaults standardUserDefaults] stringForKey:currentUserKey];
-        if(loggedInUserId != nil) {
+        if (loggedInUserId != nil) {
             NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
             [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"userId = %@",loggedInUserId]];
@@ -62,7 +62,7 @@ NSString *const currentUserKey = @"currentUserKey";
 
 + (void)setCurrentUser:currentUser {
     _currentUser = currentUser;
-    if(_currentUser != nil) {
+    if (_currentUser != nil) {
         NSString *userId = _currentUser.userId;
         [[NSUserDefaults standardUserDefaults]setObject:userId forKey:currentUserKey];
     }

@@ -38,32 +38,32 @@
     self.navigationItem.leftBarButtonItem = nil;
 }
 
-- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    if(searchBar == _searchController.searchBar) {
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar {
+    if (searchBar == _searchController.searchBar) {
         searchBar.placeholder = @"Search Twitter";
     }
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    if(searchBar == _searchController.searchBar) {
+- (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
+    if (searchBar == _searchController.searchBar) {
         NSLog(@"Search Button Pressed with query %@", _searchController.searchBar.text);
         self.searchText = _searchController.searchBar.text;
         _searchController.active = NO;
     }
 }
 
-- (void) setSearchText:(NSString *)searchText {
+- (void)setSearchText:(NSString *)searchText {
     [self fetchUsers:searchText];
     [self fetchTweets:searchText];
     [self.tableView reloadData];
 }
 
--(void)dealloc {
+- (void)dealloc {
     [_searchController.view removeFromSuperview];
 }
 
 
--(void) fetchTweets:(NSString *)searchText {
+- (void)fetchTweets:(NSString *)searchText {
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"text CONTAINS [cd] %@",searchText]];
@@ -76,7 +76,7 @@
 }
 
 
--(void) fetchUsers:(NSString *)searchText {
+- (void)fetchUsers:(NSString *)searchText {
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS [cd] %@",searchText]];
@@ -96,25 +96,22 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if([self tableView:tableView numberOfRowsInSection:section] == 0) {
+    if ([self tableView:tableView numberOfRowsInSection:section] == 0) {
          return nil;
-    }
-    else {
+    } else {
        return (section == 0) ? @"Users" : @"Tweets";
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section==0) {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
         CustomUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
         User *user = self.users[indexPath.row];
         cell.user = user;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-    }
-    else {
+    } else {
         CustomTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tweetCell"];
         Tweet *tweet = self.tweets[indexPath.row];
         cell.tweet = tweet;
@@ -125,9 +122,10 @@
     }
 }
 
--(IBAction)onReplyButtonPress:(UIButton*)sender {
+- (IBAction)onReplyButtonPress:(UIButton*)sender {
     PostTweetViewController *viewController = [[PostTweetViewController alloc] initForReplyToTweet:self.tweets[sender.tag]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
 
 @end
