@@ -13,8 +13,7 @@
 
 @implementation Tweet (Twitter)
 
-+ (Tweet*) tweetWithTwitterInfo:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context
-{
++ (Tweet*)tweetWithTwitterInfo:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext*)context {
     Tweet *tweet = nil;
     NSString *tweetId = dictionary[@"id_str"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tweet"];
@@ -46,8 +45,7 @@
     return tweet;
 }
 
-+ (NSArray*) loadTweetsFromArray:(NSArray *)array inManagedObjectContext:(NSManagedObjectContext *)context
-{
++ (NSArray*)loadTweetsFromArray:(NSArray *)array inManagedObjectContext:(NSManagedObjectContext *)context {
     NSMutableArray *tweets = [NSMutableArray array];
     for(NSDictionary *dictionary in array) {
         [tweets addObject:[self tweetWithTwitterInfo:dictionary inManagedObjectContext:context]];

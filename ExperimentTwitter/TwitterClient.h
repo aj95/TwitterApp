@@ -11,18 +11,18 @@
 
 @interface TwitterClient : BDBOAuth1SessionManager
 
-+ (TwitterClient *) sharedInstance;
++ (TwitterClient*) sharedInstance;
 - (void)loginWithCompletion:(void (^)(User *user, NSError *error)) completion;
-- (void)openURL:(NSURL *)url;
+- (void)openURL:(NSURL*)url;
 - (void)likeTweetWithId:(NSString*)tweetId;
 - (void)unlikeTweetWithId:(NSString*)tweetId;
 - (void)retweetTweetWithId:(NSString*)tweetId;
 - (void)untweetTweetWithId:(NSString*)tweetId;
 - (void)postTweet:(NSString*)tweetText;
+- (void)replyToTweetWithId:(NSString*)tweetId
+                 tweetText:(NSString*)tweetText;
 - (void)usersListWithParams:(NSDictionary*)params
                  completion:(void (^)(NSArray *users, NSString *cursor, NSError *error))completion;
 - (void)tweetsWithParams:(NSDictionary*)params
               completion:(void (^)(NSArray *users,NSError *error))completion;
-- (void)replyToTweetWithId:(NSString*)tweetId
-              tweetText:(NSString*)tweetText;
 @end

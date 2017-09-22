@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TweetsTableViewController.h"
+#import "User+Twitter.h"
 
 @interface UserTimelineViewController : TweetsTableViewController
--(id) initWithUser:(User *)user;
+- (id)initWithUser:(User *)user;
 @end

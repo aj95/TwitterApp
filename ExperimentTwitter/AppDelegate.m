@@ -20,12 +20,10 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogOutNotification object:nil];
     User *user = User.currentUser;
     if (user != nil) {
-       // NSLog(@"%@", user);
         NSLog(@"Welcome %@ !", user.name);
         self.window.rootViewController = [[TabBarViewController alloc]init];
     } else {

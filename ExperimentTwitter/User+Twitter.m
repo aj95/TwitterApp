@@ -19,8 +19,8 @@ NSString *const UserDidLogOutNotification = @"UserDidLogoutNotification";
 @implementation User (Twitter)
 
 
-+(User*) userWithTwitterInfo:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context
-{
++ (User*)userWithTwitterInfo:(NSDictionary *)dictionary
+      inManagedObjectContext:(NSManagedObjectContext*)context {
     User *user = nil;
     NSString *userId = dictionary[@"id_str"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
@@ -45,8 +45,7 @@ NSString *const UserDidLogOutNotification = @"UserDidLogoutNotification";
 static User *_currentUser = nil;
 NSString *const currentUserKey = @"currentUserKey";
 
-+ (User *)currentUser {
-    
++ (User*)currentUser {
     if (_currentUser == nil) {
         NSString *loggedInUserId = [[NSUserDefaults standardUserDefaults] stringForKey:currentUserKey];
         if (loggedInUserId != nil) {

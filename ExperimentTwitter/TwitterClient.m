@@ -8,13 +8,12 @@
 
 #import "TwitterClient.h"
 #import "Tweet+Twitter.h"
-#import "User+Twitter.h"
 #import "CoreDataHelper.h"
 #import "Tweet+Twitter.h"
 
-NSString *const twitterConsumerKey = @"2RV0vPnG8lbcdOqDL9nBl9y0E";
-NSString *const twitterConsumerSecret = @"1ua0pfkMArkBzuHxQhpAK4MQda7AhSs2n4g6BxQVLbAIyifRRo";
-NSString *const twitterBaseURL = @"https://api.twitter.com";
+NSString *const TwitterConsumerKey = @"2RV0vPnG8lbcdOqDL9nBl9y0E";
+NSString *const TwitterConsumerSecret = @"1ua0pfkMArkBzuHxQhpAK4MQda7AhSs2n4g6BxQVLbAIyifRRo";
+NSString *const TwitterBaseURL = @"https://api.twitter.com";
 
 @interface TwitterClient()
 @property (nonatomic, strong) void(^loginCompletion)(User *user, NSError *error);
@@ -22,14 +21,14 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
 
 
 @implementation TwitterClient
-+ (TwitterClient *) sharedInstance {
++ (TwitterClient*)sharedInstance {
     static TwitterClient *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (instance == nil) {
-            instance = [[TwitterClient alloc] initWithBaseURL:[NSURL URLWithString:twitterBaseURL]
-                                                  consumerKey:twitterConsumerKey
-                                               consumerSecret:twitterConsumerSecret];
+            instance = [[TwitterClient alloc] initWithBaseURL:[NSURL URLWithString:TwitterBaseURL]
+                                                  consumerKey:TwitterConsumerKey
+                                               consumerSecret:TwitterConsumerSecret];
         }
     });
     return instance;
@@ -48,7 +47,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
     }];
 }
 
-- (void)openURL:(NSURL *)url {
+- (void)openURL:(NSURL*)url {
     [self fetchAccessTokenWithPath:@"oauth/access_token" method:@"POST" requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query] success:^(BDBOAuth1Credential *accessToken) {
         NSLog(@"Got the access token");
         [self.requestSerializer saveAccessToken: accessToken];
@@ -57,7 +56,7 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
             
         } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {
             User *user = [User userWithTwitterInfo:responseObject inManagedObjectContext:[CoreDataHelper managedObjectContext]];
-            [User setCurrentUser:user];  //IMPORTANT UNCOMMENT THIS
+            [User setCurrentUser:user];
             NSLog(@"Current User : %@",user.name);
             self.loginCompletion(user, nil);
         } failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
@@ -136,24 +135,27 @@ NSString *const twitterBaseURL = @"https://api.twitter.com";
 
 - (void)usersListWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users, NSString*cursor, NSError *error))completion {
     NSString *endPoint = params[@"endPoint"];
-    [self GET:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {
-        NSLog(@"Fetching users");
-    } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {
-        NSMutableArray *users = [[NSMutableArray alloc] init];
-        for(NSDictionary *dictionary in responseObject[@"users"]) {
-            [users addObject:[User userWithTwitterInfo:dictionary inManagedObjectContext:[CoreDataHelper managedObjectContext]]];
-        }
-        completion(users,responseObject[@"next_cursor_str"], nil);
-    } failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
-        NSLog(@"Failed to fetch users!");
-        completion(nil, nil, error);
-    }];
+    if (endPoint) {
+        NSLog(@"%@",endPoint);
+        [self GET:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {
+            NSLog(@"Fetching users");
+        } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {
+            NSMutableArray *users = [[NSMutableArray alloc] init];
+            for(NSDictionary *dictionary in responseObject[@"users"]) {
+                [users addObject:[User userWithTwitterInfo:dictionary inManagedObjectContext:[CoreDataHelper managedObjectContext]]];
+            }
+            completion(users,responseObject[@"next_cursor_str"], nil);
+        } failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+            NSLog(@"Failed to fetch users!");
+            completion(nil, nil, error);
+        }];
+    }
 }
 
 - (void)tweetsWithParams:(NSDictionary*)params completion:(void (^)(NSArray *users,NSError *error))completion {
     NSString *endPoint = params[@"endPoint"];
-    NSLog(@"%@", endPoint);
     if (endPoint) {
+        NSLog(@"%@",endPoint);
         [self GET:endPoint parameters:nil progress:^(NSProgress *_Nonnull downloadProgress) {
             NSLog(@"Downloading tweets");
         } success:^(NSURLSessionDataTask *_Nonnull task, id  _Nullable responseObject) {

@@ -12,8 +12,10 @@ extern NSString *const UserDidLogInNotification;
 extern NSString *const UserDidLogOutNotification;
 
 @interface User (Twitter)
+
 + (User*)userWithTwitterInfo:(NSDictionary*)dictionary
       inManagedObjectContext:(NSManagedObjectContext*) context;
 @property(strong, nonatomic, class)User *currentUser;
 +(void)logout;
+
 @end

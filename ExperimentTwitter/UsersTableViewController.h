@@ -11,6 +11,7 @@
 @interface UsersTableViewController : UITableViewController
 
 @property(strong, nonatomic) NSString *endPoint;
-- (void)setRelationshipOnUsers:(NSArray *)users;
 - (id)initWithUsers:(NSArray*)users;
+- (void)setRelationshipOnUsers:(NSArray*)users;
+
 @end

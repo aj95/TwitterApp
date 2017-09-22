@@ -34,14 +34,12 @@
     return self;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.users.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath;
-{
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   CustomUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell"];
   User *user = self.users[indexPath.row];
   cell.user = user;
@@ -51,8 +49,7 @@
 
 - (void)tableView:(UITableView *)tableView
   willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.row == (self.users.count - 5) && ![self.cursor isEqualToString:@"0"]) {
     [[TwitterClient sharedInstance] usersListWithParams:@{@"endPoint":[self getEndPoint]}
                                              completion:^(NSArray *users, NSString *cursor, NSError *error) {
@@ -67,8 +64,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     User *user = self.users[indexPath.row];
     UserTimelineViewController *viewController = [[UserTimelineViewController alloc] initWithUser:user];
     [self.navigationController pushViewController:viewController animated:YES];
@@ -107,13 +103,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.navigationItem.leftBarButtonItem = searchButton;
 }
 
--(IBAction)onTweetButtonPress {
+- (IBAction)onTweetButtonPress {
     PostTweetViewController *viewController = [[PostTweetViewController alloc]init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 
--(IBAction)onSearchButtonPress {
+- (IBAction)onSearchButtonPress {
     TweetsSearchViewController *viewController = [[TweetsSearchViewController alloc]init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -132,21 +128,21 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }];
 }
 
--(NSString *)getEndPoint {
+- (NSString*)getEndPoint {
     return [NSString stringWithFormat:@"%@?cursor=%@",self.endPoint, self.cursor];
 }
 
--(void)setRelationshipOnUsers:(NSArray *)users {
+- (void)setRelationshipOnUsers:(NSArray*)users {
     // Implemented in subclasses
 }
 
--(NSArray*)sortUsersListByFirstName:(NSArray*)users {
+- (NSArray*)sortUsersListByFirstName:(NSArray*)users {
   NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
   users = [NSMutableArray arrayWithArray:[users sortedArrayUsingDescriptors:@[nameSortDescriptor]]];
   return users;
 }
 
--(void) loadNewUsers:(NSArray*)users {
+- (void)loadNewUsers:(NSArray*)users {
   users = [self sortUsersListByFirstName:users];
   [self.users addObjectsFromArray:users];
   [self setRelationshipOnUsers:users];

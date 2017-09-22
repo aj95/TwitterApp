@@ -10,14 +10,14 @@
 #import "CoreDataHelper.h"
 
 @interface TweetsTableViewController ()
-@property (strong, nonatomic) NSString *userScreenName;
+@property (nonatomic) NSString *userScreenName;
 @end
 
 @implementation UserTimelineViewController
 
 @synthesize userScreenName;
 
-NSString *const twitterUserTimelineKey = @"1.1/statuses/user_timeline.json";
+NSString *const TwitterUserTimelineKey = @"1.1/statuses/user_timeline.json";
 
 - (id)initWithUser:(User*)user {
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
@@ -36,11 +36,8 @@ NSString *const twitterUserTimelineKey = @"1.1/statuses/user_timeline.json";
     self.navigationItem.leftBarButtonItem = nil;
 }
 
--(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
-    if (maxId) {
-        return [NSString stringWithFormat:@"%@?screen_name=%@&max_id=%@", twitterUserTimelineKey, self.userScreenName, maxId];
-    }
-    return [NSString stringWithFormat:@"%@?screen_name=%@", twitterUserTimelineKey, self.userScreenName];;
+- (NSString*)getEndPointWithMaxIdParameter:(NSString*)maxId {
+    return (maxId != nil) ? [NSString stringWithFormat:@"%@?screen_name=%@&max_id=%@", TwitterUserTimelineKey, self.userScreenName, maxId] : [NSString stringWithFormat:@"%@?screen_name=%@", TwitterUserTimelineKey, self.userScreenName];;
 }
 
 @end

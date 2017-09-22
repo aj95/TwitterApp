@@ -10,7 +10,7 @@
 
 @interface Tweet (Twitter)
 
-+ (Tweet*) tweetWithTwitterInfo:(NSDictionary*) dictionary inManagedObjectContext:(NSManagedObjectContext*) context;
-+ (NSArray*) loadTweetsFromArray:(NSArray*)array inManagedObjectContext:(NSManagedObjectContext*) context;
++ (Tweet*)tweetWithTwitterInfo:(NSDictionary*)dictionary inManagedObjectContext:(NSManagedObjectContext*)context;
++ (NSArray*)loadTweetsFromArray:(NSArray*)array inManagedObjectContext:(NSManagedObjectContext*) context;
 
 @end

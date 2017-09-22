@@ -8,12 +8,13 @@
 
 #import "HomeTimelineViewController.h"
 #import "CoreDataHelper.h"
+#import "User+Twitter.h"
 
 @implementation HomeTimelineViewController
 
 NSString *const TwitterHomeTimelineKey = @"1.1/statuses/home_timeline.json";
 
--(id)init {
+- (id)init {
     User *currentUser = User.currentUser;
     NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];

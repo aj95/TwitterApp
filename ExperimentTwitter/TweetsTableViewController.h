@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "User+Twitter.h"
 
 @interface TweetsTableViewController : UITableViewController
 - (id)initWithTweets:(NSArray*)tweets;

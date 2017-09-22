@@ -13,7 +13,7 @@
 #import "PostTweetViewController.h"
 #import "TwitterClient.h"
 
-@interface TweetsSearchViewController ()<CustomTweetCellDelegate>
+@interface TweetsSearchViewController ()<CustomTweetCellDelegate,UISearchBarDelegate>
 @property(strong, nonatomic) UISearchController *searchController;
 @property(strong, nonatomic) NSString *searchText;
 @property (strong, nonatomic) NSArray *tweets;
@@ -34,7 +34,6 @@
     self.navigationItem.titleView = _searchController.searchBar;
     _searchController.searchBar.placeholder = @"Search Twitter";
     _searchController.searchBar.delegate = self;
-
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.leftBarButtonItem = nil;
 }
@@ -124,27 +123,27 @@
 
 - (void)customTweetCell:(CustomTweetCell *)customTweetCell
 pressedFavoriteButtonWithSelectionState:(BOOL)isSelected {
-    if(isSelected) {
+    if (isSelected) {
         [customTweetCell changeFavoriteButtonImageForUnlikedTweet];
         [customTweetCell changeFavoriteCountForUnLikedTweet];
-        [[TwitterClient sharedInstance] unlikeTweetWithId : customTweetCell.tweet.tweetId];
+        [[TwitterClient sharedInstance] unlikeTweetWithId:customTweetCell.tweet.tweetId];
     } else {
         [customTweetCell changeFavoriteButtonImageForLikedTweet];
         [customTweetCell changeFavoriteCountForLikedTweet];
-        [[TwitterClient sharedInstance] likeTweetWithId : customTweetCell.tweet.tweetId];
+        [[TwitterClient sharedInstance] likeTweetWithId:customTweetCell.tweet.tweetId];
     }
 }
 
 - (void)customTweetCell:(CustomTweetCell *)customTweetCell
 pressedRetweetButtonWithSelectionState:(BOOL)isSelected {
-    if(isSelected) {
+    if (isSelected) {
         [customTweetCell changeRetweetButtonImageForUnRetweetedTweet];
         [customTweetCell changeRetweetCountForForUnRetweetedTweet];
-        [[TwitterClient sharedInstance] untweetTweetWithId : customTweetCell.tweet.tweetId];
+        [[TwitterClient sharedInstance] untweetTweetWithId:customTweetCell.tweet.tweetId];
     } else {
         [customTweetCell changeRetweetButtonImageForRetweetedTweet];
         [customTweetCell changeRetweetCountForRetweetedTweet];
-        [[TwitterClient sharedInstance] retweetTweetWithId : customTweetCell.tweet.tweetId];
+        [[TwitterClient sharedInstance] retweetTweetWithId:customTweetCell.tweet.tweetId];
     }
 }
 

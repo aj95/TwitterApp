@@ -10,6 +10,5 @@
 #import "Tweet+Twitter.h"
 
 @interface PostTweetViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIButton *tweetButton;
 -(id) initForReplyToTweet:(Tweet*) tweet;
 @end

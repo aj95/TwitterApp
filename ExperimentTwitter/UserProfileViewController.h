@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "User+Twitter.h"
 #import "UserTimelineViewController.h"
 
 @interface UserProfileViewController : UserTimelineViewController
+
 @end

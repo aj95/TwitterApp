@@ -7,11 +7,6 @@
 //
 
 #import "UserProfileViewController.h"
-#import "CustomTweetCell.h"
-#import "TwitterClient.h"
-#import "PostTweetViewController.h"
-#import "UserTimelineViewController.h"
-#import "SDWebImage/UIImageView+WebCache.h"
 #import "UserHeaderView.h"
 
 @interface UserProfileViewController ()

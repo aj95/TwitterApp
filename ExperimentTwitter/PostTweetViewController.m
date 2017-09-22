@@ -11,6 +11,7 @@
 
 @interface PostTweetViewController ()
 @property (nonatomic) Tweet *inReplyToTweet;
+@property (nonatomic, weak) IBOutlet UIButton *tweetButton;
 @property (nonatomic, weak) IBOutlet UITextView *tweetText;
 @property (nonatomic, weak) IBOutlet UILabel *charactersLeftLabel;
 @end
@@ -21,6 +22,7 @@
 -(id) initForReplyToTweet:(Tweet *)tweet {
     self = [super init];
     self.inReplyToTweet = tweet;
+    
     return self;
 }
 

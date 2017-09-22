@@ -179,26 +179,27 @@ pressedRetweetButtonWithSelectionState:(BOOL)isSelected {
 
 }
 
--(NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
+- (NSString*) getEndPointWithMaxIdParameter:(NSString*)maxId {
     // OVERRIDDEN BY SUBCLASSES
     return NULL;
 }
 
--(NSString*)getMaxIdParameterFromLastTweet {
+- (NSString*)getMaxIdParameterFromLastTweet {
     Tweet *tweet = [self.tweets lastObject];
     NSString *maxId = [NSString stringWithFormat:@"%ld",[tweet.tweetId integerValue] - 1];
     return maxId;
 }
 
--(NSArray*)sortTweetsListByCreatedAt:(NSArray*)tweets {
+- (NSArray*)sortTweetsListByCreatedAt:(NSArray*)tweets {
     NSSortDescriptor *createdAtSortDescriptor;
     createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     tweets = [NSMutableArray arrayWithArray:[tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]]];
     return tweets;
 }
 
--(void)addNewTweets:(NSArray*)tweets {
+- (void)addNewTweets:(NSArray*)tweets {
     tweets = [self sortTweetsListByCreatedAt:tweets];
     [self.tweets addObjectsFromArray:tweets];
 }
+
 @end
